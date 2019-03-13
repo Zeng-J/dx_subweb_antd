@@ -4,8 +4,9 @@ import Vue from "vue"
 import Router from "vue-router" //导入路由组件
 
 import FrontRouter from "../subweb/front/FrontRouter"
-import TeamRouter from "@/subweb/team/TeamRouter"
-import OrgRouter from "@/subweb/organization/OrgRouter";
+import TeamRouter from "../subweb/team/TeamRouter"
+import OrgRouter from "../subweb/organization/OrgRouter"
+import CompetitionRouter from "../subweb/competition/CompetitionRouter";
 
 Vue.use(Router); //使用路由组件
 
@@ -16,7 +17,7 @@ const root = [
   }
 ];
 
-const routes = [...root, ...FrontRouter, ...TeamRouter, ...OrgRouter];
+const routes = [...root, ...FrontRouter, ...TeamRouter, ...OrgRouter,...CompetitionRouter];
 
 // 让每一个 路由对象 都有 path
 routes.forEach(route => {

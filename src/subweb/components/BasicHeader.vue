@@ -26,15 +26,10 @@
                 <a-menu-item key="6"><router-link to="/team/group">群组</router-link></a-menu-item>
             </a-sub-menu>
             <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
-            <!-- <a-sub-menu key="sub5">
-                <span slot="title"><router-link to="/org">组织管理</router-link><a-icon type="down" /></span>
-            </a-sub-menu> -->
             <a-sub-menu key="sub6">
                 <span slot="title">教育培训</span>
             </a-sub-menu>
-            <a-sub-menu key="sub7">
-                <span slot="title">竞赛活动</span>
-            </a-sub-menu>   
+            <a-menu-item key="8"><router-link to="/competition">竞赛活动</router-link></a-menu-item> 
             <a-sub-menu key="sub8">
                 <span slot="title">人才猎聘</span>
             </a-sub-menu>
@@ -42,7 +37,13 @@
                 <span slot="title">工作任务</span>
             </a-sub-menu>
             <a-sub-menu key="sub10">
-                <span slot="title">admin<a-icon type="bell" /></span>
+                <span slot="title">
+                    <span>
+                    <img src="https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000" style="width:30px;border-radius:50%;">
+                    </span>
+                    <span>admin<a-icon type="bell" style="margin-left:5px"/></span>
+                    
+                </span>
                 <a-menu-item key="10">个人信息</a-menu-item>
                 <a-menu-item key="11">修改密码</a-menu-item>
                 <a-menu-item key="12">退出登录</a-menu-item>
@@ -57,3 +58,14 @@ export default {
 }
 </script>
 
+<style scoped>
+#components-layout-demo-fixed .logo {
+  width: 120px;
+  height: 31px;
+  /* background: rgba(255,255,255,.2); */
+  margin: 16px 24px 16px 0;
+  float: left;
+  background-image: url(https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000);
+  background-size:100% 100%;
+}
+</style>

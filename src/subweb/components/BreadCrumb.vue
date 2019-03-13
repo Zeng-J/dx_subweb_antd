@@ -21,7 +21,7 @@
     },
     watch: {
         $route () {
-            console.log(this.$route.matched);
+        // console.log(this.$route.matched);
         this.routes=this.$route.matched;
         }
     }

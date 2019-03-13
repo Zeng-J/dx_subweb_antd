@@ -28,8 +28,7 @@ export default {
 </script>
 
 
-<style>
-
+<style scoped>
 #components-layout-demo-fixed .logo {
   width: 120px;
   height: 31px;

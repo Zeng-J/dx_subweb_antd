@@ -68,7 +68,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scoped>
 .editable-cell {
   position: relative;
 }
