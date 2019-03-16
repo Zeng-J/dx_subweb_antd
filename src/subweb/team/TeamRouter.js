@@ -1,10 +1,10 @@
-import BasicLayout from '../components/BasicLayout'
+import Index from './views/Index'
 
 export default [{
     path:'/team',
     name:'team',
     meta:{title:'团队管理'},
-    component:BasicLayout,
+    component:Index,
     redirect:'team/member',
     children:[
         {

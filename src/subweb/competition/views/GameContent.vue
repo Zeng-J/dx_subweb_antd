@@ -7,7 +7,7 @@
   >
     <a-list-item slot="renderItem" slot-scope="item, index" key="item.title">
         <a-list-item-meta>
-            <router-link slot="title" to="/competition/message">{{item.title}}</router-link>
+            <span slot="title">{{item.title}}</span>
             <div slot="description">
                 <p>{{item.description}}</p>
                 <p>{{item.content}}</p>
@@ -80,6 +80,9 @@ export default {
       },{
         key: 'enrol',
         tab: '报名填表',
+      },{
+        key: 'test',
+        tab: '进入答题',
       }],
     }
   },

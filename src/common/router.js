@@ -8,16 +8,28 @@ import TeamRouter from "../subweb/team/TeamRouter"
 import OrgRouter from "../subweb/organization/OrgRouter"
 import CompetitionRouter from "../subweb/competition/CompetitionRouter";
 
+import BasicLayout from "../subweb/components/BasicLayout"
+import AccountRouter from "../subweb/account/AccountRouter";
+
 Vue.use(Router); //使用路由组件
 
 const root = [
   {
-    path: "*", // 路径
-    redirect: "/front" //重定向
+    path: "/front", // 路径
+    // redirect: "/front" //重定向
   }
 ];
 
-const routes = [...root, ...FrontRouter, ...TeamRouter, ...OrgRouter,...CompetitionRouter];
+const routes = [...root, ...FrontRouter, {
+    path:"/",
+    name:"index",
+    meta:{title:'首页'},
+    component:BasicLayout,
+    redirect: "/team",//重定向
+    children:[
+      ...TeamRouter, ...OrgRouter,...CompetitionRouter,...AccountRouter
+    ]
+  }];
 
 // 让每一个 路由对象 都有 path
 routes.forEach(route => {

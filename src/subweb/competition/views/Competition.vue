@@ -3,69 +3,38 @@
     <a-layout>
       <a-layout-sider width="200" style="background: #fff">
         <a-menu
-          mode="vertical"
+          mode="inline"
           :style="{ height: '100%', borderRight: 0 }"
         >
-            <a-menu-item key="1">
-                <span><a-icon type="mail" /><span>竞赛库</span></span>
+            <a-menu-item-group key="g1" :style="{'border-style':'outset','border-width':'1.4px'}">
+                <template slot="title"><a-icon type="calendar" /><span>竞赛库</span></template>
+                <a-menu-item key="1">前端开发</a-menu-item>
+                <a-menu-item key="2">后端开发</a-menu-item>
+                <a-menu-item key="3">人工智能</a-menu-item>
+                <a-menu-item key="4">智能硬件/物联网</a-menu-item>
+                <a-menu-item key="5">设计/产品/测试</a-menu-item>
+                <a-menu-item key="6">云计算/大数据</a-menu-item>
+                <a-menu-item key="7">技术支撑</a-menu-item>
+                <a-menu-item key="8">综合</a-menu-item>
+            </a-menu-item-group>
+            <a-menu-item key="9">
+                <router-link to="current"><a-icon type="calendar" />在期竞赛</router-link>
             </a-menu-item>
-            <a-menu-item key="2">
-                <span>研发部</span>
+            <a-menu-item key="10">
+                <router-link to="past"><a-icon type="calendar" />往期竞赛</router-link>
             </a-menu-item>
-            <a-sub-menu key="sub1">
-                <span slot="title"><span>技术部</span></span>
-                <a-menu-item key="3">Option 3</a-menu-item>
-                <a-menu-item key="4">Option 4</a-menu-item>
-            <a-sub-menu key="sub1-2" title="Submenu">
-                <a-menu-item key="5">Option 5</a-menu-item>
-                <a-menu-item key="6">Option 6</a-menu-item>
-            </a-sub-menu>
-            </a-sub-menu>
-            <a-sub-menu key="sub2">
-                <span slot="title">待开发</span>
-                <a-menu-item key="7">Option 7</a-menu-item>
-                <a-menu-item key="8">Option 8</a-menu-item>
-                <a-menu-item key="9">Option 9</a-menu-item>
-                <a-menu-item key="10">Option 10</a-menu-item>
-            </a-sub-menu>
+            <a-menu-item key="11">
+                <span><a-icon type="calendar" />我的竞赛</span>
+            </a-menu-item>
         </a-menu>
       </a-layout-sider>
-      <a-layout style="padding: 0 0 0 2px;">
-        <a-layout-content style=" background:#fff;padding: 14px;">
-            <a-menu
-            mode="horizontal"
-            >
-                <a-menu-item key="1">
-                    全部课程
-                </a-menu-item>
-                <a-menu-item key="2">
-                    最新
-                </a-menu-item>
-                <a-menu-item key="3">
-                    课程类型
-                </a-menu-item>
-                <a-menu-item key="4">
-                    内容类型
-                </a-menu-item>
-                <a-menu-item key="5">
-                    难度等级
-                </a-menu-item>
-            </a-menu>
-        </a-layout-content>
-        <a-layout-content :style="{ background: '#fff', padding: '14px 24px', margin: 0, minHeight: '280px' }">
-          <list />
-        </a-layout-content>
-      </a-layout>
+        <router-view></router-view>
     </a-layout>
   </a-layout>
 </template>
 <script>
-import list from '../components/List'
 
 export default {
-    components:{
-        list
-    },
   methods: {
 
   }

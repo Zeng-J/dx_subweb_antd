@@ -19,13 +19,6 @@
             <a-menu-item key="2">option10</a-menu-item>
             <a-menu-item key="3">option11</a-menu-item>
             </a-sub-menu>
-            <a-sub-menu key="sub4">
-                <span slot="title">团队管理<a-icon type="down" /></span>
-                <a-menu-item key="4"><router-link to="/team/member">成员</router-link></a-menu-item>
-                <a-menu-item key="5"><router-link to="/team/role">角色</router-link></a-menu-item>
-                <a-menu-item key="6"><router-link to="/team/group">群组</router-link></a-menu-item>
-            </a-sub-menu>
-            <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
             <a-sub-menu key="sub6">
                 <span slot="title">教育培训</span>
             </a-sub-menu>
@@ -39,22 +32,80 @@
             <a-sub-menu key="sub10">
                 <span slot="title">
                     <span>
-                    <img src="https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000" style="width:30px;border-radius:50%;">
+                        <img src="https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000" style="width:30px;border-radius:50%;">
                     </span>
-                    <span>admin<a-icon type="bell" style="margin-left:5px"/></span>
-                    
+                    <span>admin</span>
                 </span>
-                <a-menu-item key="10">个人信息</a-menu-item>
+                <a-menu-item key="10"><router-link to="/account">个人信息</router-link></a-menu-item>
                 <a-menu-item key="11">修改密码</a-menu-item>
                 <a-menu-item key="12">退出登录</a-menu-item>
+                <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
+                <a-sub-menu key="sub10-1" title="团队管理">
+                    <a-menu-item key="4"><router-link to="/team/member">成员</router-link></a-menu-item>
+                    <a-menu-item key="5"><router-link to="/team/role">角色</router-link></a-menu-item>
+                    <a-menu-item key="6"><router-link to="/team/group">群组</router-link></a-menu-item>
+                </a-sub-menu>
             </a-sub-menu>
+             <!-- <a-menu-item > -->
+            <a-popover  trigger="click">
+                <template slot="content">
+                        <a-tabs defaultActiveKey="1" @change="callback" :animated='animated'>
+                            <a-tab-pane tab="通知（1）" key="1">
+                                <a-list
+                                    itemLayout="horizontal"
+                                    :dataSource="data"
+                                >
+                                    <a-list-item slot="renderItem" slot-scope="item, index">
+                                    <a-list-item-meta
+                                        description="今天是个好日子"
+                                    >
+                                        <a slot="title" href="https://vue.ant.design/">{{item.title}}&nbsp;&nbsp;&nbsp;<a-tag color="pink">未开始</a-tag></a>
+                                        <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                    </a-list-item-meta>
+                                    </a-list-item>
+                                </a-list>
+                                <p>加载更多</p>
+                                <p>清空代办</p>
+                            </a-tab-pane>
+                            <a-tab-pane tab="消息（2）" key="2" >Content of Tab Pane 2</a-tab-pane>
+                            <a-tab-pane tab="代办（4）" key="3" >Content of Tab Pane 2</a-tab-pane>
+                        </a-tabs>
+                </template>
+                 <a-button type="default" icon="bell" style="border:#fff"></a-button>
+            </a-popover>
+            <!-- </a-menu-item> -->
         </a-menu>
     </a-layout-header>
 </template>
 
 <script>
+const data = [
+  {
+    title: 'Ant Design Title 1',
+  },
+  {
+    title: 'Ant Design Title 2',
+  },
+  {
+    title: 'Ant Design Title 3',
+  },
+  {
+    title: 'Ant Design Title 4',
+  },
+]
+
 export default {
-    
+    data(){
+        return{
+            animated:false,
+            data
+        }
+    },
+    methods: {
+        callback (key) {
+            console.log(key)
+        },
+    },
 }
 </script>
 

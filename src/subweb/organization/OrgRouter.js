@@ -1,10 +1,10 @@
-import BasicLayout from '../components/BasicLayout'
+import Index from './views/Index'
 
 export default [{
     path:'/org',
     name:'org',
     meta:{title:'组织管理'},
-    component:BasicLayout,
+    component:Index,
     redirect:'org/list',
     children:[
         {

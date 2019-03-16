@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button>
+    <a-button class="editable-add-btn" @click=handleAdd() type="primary"><a-icon type="plus" />新增</a-button>
     <a-table :dataSource="dataSource" :columns="columns" :pagination="pagination">
       <span slot="tags" slot-scope="tags">
         <a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     handleAdd () {
+      console.log("fs");
       this.$refs.RolesLayer.title="创建角色";
       this.$refs.RolesLayer.visible=!this.$refs.RolesLayer.visible;
     },
