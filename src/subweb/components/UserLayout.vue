@@ -15,14 +15,19 @@
       </a-menu>
     </a-layout-header>
     <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">
-      <a-breadcrumb :style="{ margin: '16px 0' }">
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
-        <a-breadcrumb-item>List</a-breadcrumb-item>
-        <a-breadcrumb-item>App</a-breadcrumb-item>
-      </a-breadcrumb>
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
-          <router-view></router-view>
-      </div>
+      <a-row>
+        <a-col :xs="24" :sm="8">
+          <img 
+          style="width:80%; height:250px;margin:50px auto;"
+          src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990515277,3071303246&fm=27&gp=0.jpg" alt=""
+          >
+        </a-col>
+        <a-col :xs="24" :sm="16" :lg="{ span: 12, offset: 1 }" :xl="{ span: 10, offset: 4 }" :xxl="{ span: 8, offset: 4 }">
+          <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
+              <router-view></router-view>
+          </div>
+        </a-col>
+      </a-row>
     </a-layout-content>
     <a-layout-footer :style="{ textAlign: 'center', width: '100%',padding:'10px 0 60px'}">
       <global-foot/>

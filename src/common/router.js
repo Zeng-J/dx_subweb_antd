@@ -15,12 +15,12 @@ Vue.use(Router); //使用路由组件
 
 const root = [
   {
-    path: "/front", // 路径
-    // redirect: "/front" //重定向
+    path: "/", // 路径
+    redirect: "/front" //重定向
   }
 ];
 
-const routes = [...root, ...FrontRouter, {
+const routes = [...FrontRouter, {
     path:"/",
     name:"index",
     meta:{title:'首页'},
