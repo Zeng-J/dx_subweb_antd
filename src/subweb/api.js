@@ -12,8 +12,6 @@ export const addUser = params => post("/user", params);
 export const editUser = (id, params) => put("/user/" + id, params);
 export const delUser = id => del("/user/" + id);
 
-export const getPicCode = (random) => post2("/subweb/open/captcha/"+random)
+// export const getPicCode = () => post2("/subweb/open/captcha/1");
 
-export const getSmsCaptcha = (params) => post2("/subweb/open/sms/reg",params)
-
-export const register = (params) => post2("/subweb/open/user",params)
+export const getPicCode = () => console.log('拿到api路径')

@@ -5,16 +5,16 @@
                 <!-- 账号密码登陆组件 -->
                 <a-tab-pane key="tab1" tab="账号密码登陆">
                     <a-form-item>
-                        <a-input size="large" type="text" placeholder="帐户名或邮箱地址 / admin" v-decorator="[
-                            'username',
-                            {rules: [{ required: true, message: '请输入帐户名或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+                        <a-input size="large" type="text" placeholder="手机号" v-decorator="[
+                            'mobile1',
+                            {rules: [{ required: true, message: '请输入正确的手机号', pattern: /^1[3456789]\d{9}$/}], validateTrigger: 'change'}
                         ]">
                             <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
                         </a-input>
                     </a-form-item>
 
                     <a-form-item>
-                        <a-input size="large" type="password" autocomplete="false" placeholder="密码 / admin" v-decorator="[
+                        <a-input size="large" type="password" autocomplete="false" placeholder="密码 / 123asd" v-decorator="[
                             'password',
                             {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
                         ]">
@@ -31,8 +31,8 @@
                                     <a-icon slot="prefix" type="info-circle" :style="{ color: 'rgba(0,0,0,.25)' }" />
                                 </a-input>
                             </a-col>
-                            <a-col span='8'>
-                                <span>8456</span>
+                            <a-col span='7' offset='1'>
+                                <img :src="src" alt="获取验证码" @click="getPic">
                             </a-col>
                         </a-row>
                     </a-form-item>
@@ -41,7 +41,7 @@
                 <!-- 手机登陆组件 -->
                 <a-tab-pane key="tab2" tab="手机号登陆">
                     <a-form-item>
-                        <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
+                        <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile2', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
                             <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }" />
                         </a-input>
                     </a-form-item>
@@ -55,7 +55,8 @@
                             </a-form-item>
                         </a-col>
                         <a-col class="gutter-row" :span="8">
-                            <a-button class="getCaptcha" tabindex="-1" :disabled="state.smsSendBtn" v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"></a-button>
+                            <a-button class="getCaptcha" tabindex="-1" :disabled="state.smsSendBtn" 
+                            @click.stop.prevent="getCaptcha" v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"></a-button>
                         </a-col>
                     </a-row>
                 </a-tab-pane>
@@ -68,7 +69,7 @@
             </a-form-item>
 
             <a-form-item style="margin-top:24px">
-                <a-button size="large" type="primary" class="login-button" :loading="state.loginBtn" :disabled="state.loginBtn">确定</a-button>
+                <a-button size="large" type="primary" class="login-button" :loading="state.loginBtn" :disabled="state.loginBtn" htmlType="submit">确定</a-button>
             </a-form-item>
 
             <div class="user-login-other">
@@ -91,44 +92,114 @@
 </template>
 
 <script>
+import { getPicCode, getSmsCaptcha} from '@/common/api'
+
 export default {
   data() {
     return {
-      customActiveKey: "tab1",
-      loginBtn: false,
-      // login type: 0 email, 1 username, 2 telephone
-      loginType: 0,
-      requiredTwoStepCaptcha: false,
-      stepCaptchaVisible: false,
-      form: this.$form.createForm(this),
-      state: {
+        src:'',
+        customActiveKey: "tab1",
+        requiredTwoStepCaptcha: false,
+        stepCaptchaVisible: false,
+        form: this.$form.createForm(this),
+        state: {
         time: 60,
         loginBtn: false,
-        // login type: 0 email, 1 username, 2 telephone
-        loginType: 0,
         smsSendBtn: false
       }
     };
   },
   methods: {
-    // =================表单验证邮箱和手机号===================
-    handleUsernameOrEmail(rule, value, callback) {
-      const { state } = this;
-      const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
-      if (regex.test(value)) {
-        state.loginType = 0;
-      } else {
-        state.loginType = 1;
-      }
-      callback();
-    },
     // ================切换登陆方式组件=======================
     handleTabClick(key) {
       this.customActiveKey = key;
     },
     // ================提交表单，登陆跳转===================
-    handleSubmit() {
-      alert("denglu");
+    handleSubmit (e) {
+      e.preventDefault()
+      const {
+        form: { validateFields },
+        state,
+        customActiveKey
+      } = this
+
+      state.loginBtn = true
+
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['mobile1', 'password','picCode'] : ['mobile2', 'captcha']
+
+      validateFields(validateFieldsKey, { force: true }, (err, values) => {
+        if (!err) {
+          console.log('login form', values)
+        } else {
+          setTimeout(() => {
+            state.loginBtn = false
+          }, 600)
+        }
+      })
+    },
+    // ================获取图片验证码===================
+    getPic() {
+      var random = Math.random();
+      getPicCode(random)
+        .then(res => {
+          this.src = res.data.imgCodePic;
+          this.imgToken = res.data.imgToken;
+        })
+        .catch(res => {
+          console.log(res);
+        });
+    },
+
+    // ================获取短信验证码=====================
+    getCaptcha (e) {
+      e.preventDefault()
+      const { form: { validateFields }, state } = this
+      const that = this
+
+      validateFields(['mobile2'], { force: true }, (err, values) => {
+        if (!err) {
+          state.smsSendBtn = true
+
+          const interval = window.setInterval(() => {
+            if (state.time-- <= 0) {
+              state.time = 60
+              state.smsSendBtn = false
+              window.clearInterval(interval)
+            }
+          }, 1000)
+
+          const hide = this.$message.loading('验证码发送中..', 0)
+          getSmsCaptcha({
+              "imgCode": values.picCode,
+              "imgToken": that.imgToken,
+              "userMobile": values.mobile
+            })
+            .then(res => {
+            setTimeout(hide, 2500)
+            that.smsCodeToken = res.data
+            this.$notification['success']({
+              message: '提示',
+              description: '验证码获取成功，请查看您的手机哦',
+              duration: 8
+            })
+          }).catch(err => {
+            setTimeout(hide, 1)
+            clearInterval(interval)
+            that.state.time = 60
+            that.state.smsSendBtn = false
+            that.requestFailed(err)
+          })
+        }
+      })
+    },
+    requestFailed(err) {
+      this.$notification["error"]({
+        message: "错误",
+        description:
+          ((err.response || {}).data || {}).message ||
+          "请求出现错误，请稍后再试",
+        duration: 4
+      });
     }
   }
 };
