@@ -276,7 +276,7 @@ export default {
           console.log(values.picCode)
           console.log(that.imgToken)
           console.log(values.mobile)
-          getSmsCaptcha({
+          getSmsCaptcha('reg', {
               "imgCode": values.picCode,
               "imgToken": that.imgToken,
               "userMobile": values.mobile

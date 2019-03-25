@@ -25,7 +25,7 @@
                         <a-row>
                             <a-col span='16'>
                                 <a-input size="large" type="text" autocomplete="false" placeholder="验证码" v-decorator="[
-                                    'picCode',
+                                    'picCode1',
                                     {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}
                                 ]">
                                     <a-icon slot="prefix" type="info-circle" :style="{ color: 'rgba(0,0,0,.25)' }" />
@@ -44,6 +44,22 @@
                         <a-input size="large" type="text" placeholder="手机号" v-decorator="['mobile2', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: '请输入正确的手机号' }], validateTrigger: 'change'}]">
                             <a-icon slot="prefix" type="mobile" :style="{ color: 'rgba(0,0,0,.25)' }" />
                         </a-input>
+                    </a-form-item>
+
+                    <a-form-item>
+                        <a-row>
+                            <a-col span='16'>
+                                <a-input size="large" type="text" autocomplete="false" placeholder="验证码" v-decorator="[
+                                    'picCode2',
+                                    {rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}
+                                ]">
+                                    <a-icon slot="prefix" type="info-circle" :style="{ color: 'rgba(0,0,0,.25)' }" />
+                                </a-input>
+                            </a-col>
+                            <a-col span='7' offset='1'>
+                                <img :src="src" alt="获取验证码" @click="getPic">
+                            </a-col>
+                        </a-row>
                     </a-form-item>
 
                     <a-row :gutter="16">
@@ -92,12 +108,14 @@
 </template>
 
 <script>
-import { getPicCode, getSmsCaptcha} from '@/common/api'
+import { getPicCode, getSmsCaptcha, login} from '@/common/api'
 
 export default {
   data() {
     return {
         src:'',
+        imgToken:'',
+        smsCodeToken:'',
         customActiveKey: "tab1",
         requiredTwoStepCaptcha: false,
         stepCaptchaVisible: false,
@@ -114,6 +132,37 @@ export default {
     handleTabClick(key) {
       this.customActiveKey = key;
     },
+
+    // ================登陸方式===============================
+    Login(addr,params){
+      login(addr,params)
+      .then(res => {
+        if (res.code === 200){
+          this.$notification['success']({
+          message: '提示',
+          description: '登陸成功',
+          duration: 8
+        })
+        this.$store.state.FrontStore.token = res.data.token
+         this.$router.push({ name: 'team'})
+        
+        } else{
+          this.$notification["error"]({
+          message: "错误",
+          description:
+            res.msg || "请求出现错误，请稍后再试",
+          duration: 4
+          });
+          setTimeout(() => {
+            this.state.loginBtn = false
+          }, 600)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
     // ================提交表单，登陆跳转===================
     handleSubmit (e) {
       e.preventDefault()
@@ -125,11 +174,28 @@ export default {
 
       state.loginBtn = true
 
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['mobile1', 'password','picCode'] : ['mobile2', 'captcha']
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['mobile1', 'password','picCode1'] : ['mobile2', 'picCode2','captcha']
 
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
-          console.log('login form', values)
+          if (customActiveKey === 'tab1'){
+            this.Login('pwd', {
+            "imgCode": values.picCode1,
+            "imgToken": this.imgToken,
+            "userMobile": values.mobile1,
+            "userPassword": values.password
+            })
+          } else{
+            this.Login('sms', {
+            "imgCode": values.picCode2,
+            "imgCodeToken": this.imgToken,
+            "userMobile": values.mobile2,
+            "userPassword": values.password,
+            "smsCode": values.captcha,
+            "smsCodeToken": this.smsCodeToken
+            })
+          }
+
         } else {
           setTimeout(() => {
             state.loginBtn = false
@@ -156,7 +222,7 @@ export default {
       const { form: { validateFields }, state } = this
       const that = this
 
-      validateFields(['mobile2'], { force: true }, (err, values) => {
+      validateFields(['mobile2', 'picCode2'], { force: true }, (err, values) => {
         if (!err) {
           state.smsSendBtn = true
 
@@ -169,19 +235,29 @@ export default {
           }, 1000)
 
           const hide = this.$message.loading('验证码发送中..', 0)
-          getSmsCaptcha({
-              "imgCode": values.picCode,
+          getSmsCaptcha('login',{
+              "imgCode": values.picCode2,
               "imgToken": that.imgToken,
-              "userMobile": values.mobile
+              "userMobile": values.mobile2
             })
             .then(res => {
-            setTimeout(hide, 2500)
-            that.smsCodeToken = res.data
-            this.$notification['success']({
-              message: '提示',
-              description: '验证码获取成功，请查看您的手机哦',
-              duration: 8
-            })
+              console.log(res)
+              if (res.code === 200) {
+                  setTimeout(hide, 2500)
+                  that.smsCodeToken = res.data
+                  this.$notification['success']({
+                    message: '提示',
+                    description: '验证码获取成功，请查看您的手机哦',
+                    duration: 8
+                  })
+              } else{
+                setTimeout(hide, 1)
+                clearInterval(interval)
+                that.state.time = 60
+                that.state.smsSendBtn = false
+                that.requestFailed(res)
+              }
+
           }).catch(err => {
             setTimeout(hide, 1)
             clearInterval(interval)
@@ -196,9 +272,8 @@ export default {
       this.$notification["error"]({
         message: "错误",
         description:
-          ((err.response || {}).data || {}).message ||
-          "请求出现错误，请稍后再试",
-        duration: 4
+          err.data || err.msg ||"请求出现错误，请稍后再试",
+          duration: 4
       });
     }
   }

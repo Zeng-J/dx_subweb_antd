@@ -86,12 +86,11 @@ export function post2(url, params) {
   });
 }
 
-export function get2(url, params) {
+export function get2(url, token) {
+  axios.defaults.headers['x-dx-token']=token;
   return new Promise((resolve, reject) => {
     axios
-      .get(url, {
-        params: params
-      })
+      .get(url, params)
       .then(res => {
         resolve(res.data);
       })

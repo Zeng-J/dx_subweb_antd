@@ -45,15 +45,14 @@
       </a-col>
 
     </a-row>
-
-    <avatar-modal ref="modal">
-
-    </avatar-modal>
+    <button @click="get">dianji</button>
+    <avatar-modal ref="modal" />
   </div>
 </template>
 
 <script>
 import AvatarModal from './AvatarModal'
+import { getUser } from "@/common/api.js"
 
 export default {
   components: {
@@ -81,7 +80,16 @@ export default {
     }
   },
   methods: {
-
+    get(){
+      // console.log(this.$store.state.FrontStore.token)
+      getUser(this.$store.state.FrontStore.token)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>
