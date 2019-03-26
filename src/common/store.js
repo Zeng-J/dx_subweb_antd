@@ -9,7 +9,10 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
-    FrontStore
+    FrontStore,
+  },
+  state:{
+    token:'set'
   }
 });
 

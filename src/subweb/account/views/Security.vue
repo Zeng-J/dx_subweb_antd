@@ -35,6 +35,8 @@
 import ChangePasswordLayer from '../components/ChangePasswordLayer'
 import ChangeMobileLayer from '../components/ChangeMobileLayer'
 
+import { putPsw } from "@/common/api.js";
+
 export default {
   components: {ChangePasswordLayer,ChangeMobileLayer},
   data () {
@@ -56,12 +58,36 @@ export default {
     handleSubmit  () {
       const form = this.$refs.ChangePassword.form;
       form.validateFields((err, values) => {
-        if (err) {
-          return;
+        if (!err) {
+          putPsw({
+            "oldUserPassword": values.oldPassword,
+            "userPassword1":  values.password,
+            "userPassword2": values.confirm
+          },this.$store.state.token)
+          .then(res => {
+            console.log(res)
+            if(res.code === 200){
+              this.$notification['success']({
+              message: '提示',
+              description: '更改密码成功',
+              duration: 2
+              })
+              
+              form.resetFields()
+              this.visible = false
+
+            } else {
+              this.$notification['error']({
+              message: '错误',
+              description: res.msg || '更改密码失败',
+              duration: 2
+              })
+            }
+          })
+          .catch(res => {
+            console.log('err='+res)
+          })
         }
-        console.log('Received values of form: ', values);
-        form.resetFields();
-        this.visible = false;
       });
     },
     mobileCancel () {

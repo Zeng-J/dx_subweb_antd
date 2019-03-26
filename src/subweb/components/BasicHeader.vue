@@ -37,8 +37,8 @@
                     <span>admin</span>
                 </span>
                 <a-menu-item key="10"><router-link to="/account">个人信息</router-link></a-menu-item>
-                <a-menu-item key="11">修改密码</a-menu-item>
-                <a-menu-item key="12">退出登录</a-menu-item>
+                <a-menu-item key="11"><router-link to="/account/securitySettings">修改密码</router-link></a-menu-item>
+                <a-menu-item key="12"><span @click="handleLogout">退出登录</span></a-menu-item>
                 <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
                 <a-sub-menu key="sub10-1" title="团队管理">
                     <a-menu-item key="4"><router-link to="/team/member">成员</router-link></a-menu-item>
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import { logout } from '@/common/api'
+
 const data = [
   {
     title: 'Ant Design Title 1',
@@ -105,6 +107,22 @@ export default {
         callback (key) {
             console.log(key)
         },
+        handleLogout(){
+            console.log("退出")
+            logout(this.$store.state.token)
+            .then(res => {
+                    console.log(res)
+                    this.$notification['success']({
+                    message: '提示',
+                    description: '注销成功',
+                    duration: 2
+                    })
+                    this.$router.push ({path:'/front'}) 
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
     },
 }
 </script>

@@ -86,11 +86,13 @@ export function post2(url, params) {
   });
 }
 
-export function get2(url, token) {
-  axios.defaults.headers['x-dx-token']=token;
+export function get2(url, token, data) {
   return new Promise((resolve, reject) => {
     axios
-      .get(url, params)
+      .get(url, {
+        params:data,
+        headers:{'x-dx-token' : token}
+      })
       .then(res => {
         resolve(res.data);
       })
@@ -98,4 +100,61 @@ export function get2(url, token) {
         reject(err.data);
       });
   });
+}
+
+export function put2(url, data, token) {
+  return new Promise((resolve, reject) => {
+    // axios
+    //   .put(url, {
+    //     data:data,
+    //     headers:{"x-dx-token" : token}
+    //   })
+    //   .then(res => {
+    //     resolve(res.data);
+    //   })
+    //   .catch(err => {
+    //     reject(err.data);
+    //   })
+
+    axios({
+      method:'put',
+      url:url,
+      data:data,
+      headers:{'x-dx-token' : token}
+    })
+    .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+    })
+  })
+}
+
+export function delete2(url, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(url, {
+        headers:{"x-dx-token" : token}
+      })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+
+  //   axios({
+  //     method:'put',
+  //     url:url,
+  //     data:data,
+  //     headers:{'x-dx-token' : token}
+  //   })
+  //   .then(res => {
+  //       resolve(res.data);
+  //     })
+  //     .catch(err => {
+  //       reject(err.data);
+  //   })
+  })
 }

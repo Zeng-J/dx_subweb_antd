@@ -143,7 +143,7 @@ export default {
           description: '登陸成功',
           duration: 8
         })
-        this.$store.state.FrontStore.token = res.data.token
+        this.$store.state.token = res.data.token
          this.$router.push({ name: 'team'})
         
         } else{

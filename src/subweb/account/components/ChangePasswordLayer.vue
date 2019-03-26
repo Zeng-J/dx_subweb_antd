@@ -9,6 +9,18 @@
       
     >
       <a-form layout='vertical' :form="form">
+        <a-form-item label='请输入旧密码'>
+          <a-input
+            type="password"
+            v-decorator="[
+              'oldPassword',
+              {
+                rules: [{ required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/,message: '请输入旧密码' }],validateTrigger: 'change'
+              }
+            ]"
+          />
+        </a-form-item>
+
         <a-form-item label='请输入新密码'>
           <a-input
             type="password"
