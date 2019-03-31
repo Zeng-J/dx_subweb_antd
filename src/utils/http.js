@@ -1,26 +1,26 @@
 // 网络请求工具类
 
 // 引入 axios
-import axios from 'axios';
-//import { Toast } from 'vant';
+import axios from 'axios'
+//import { Toast } from 'vant'
 import { notification } from 'ant-design-vue'
 
-import router from '@/common/router';
-import {SERVER_URL} from '@/common/const';
+import router from '@/common/router'
+import {SERVER_URL} from '@/common/const'
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
-  axios.defaults.baseURL = SERVER_URL;
+  axios.defaults.baseURL = SERVER_URL
 } else {
-  axios.defaults.baseURL = SERVER_URL;
+  axios.defaults.baseURL = SERVER_URL
 }
 
 // 超时时间
 axios.defaults.timeout = 10000;
 axios.defaults.withCredentials = true;
 
-// axios.defaults.headers['X-Bmob-Application-Id']="fe114945ad61ad6213f0f1ca05d27c33";
-// axios.defaults.headers['X-Bmob-REST-API-Key']="5a46b1f734df29b6e2b192c2c1b9e495";
+axios.defaults.headers['x-dx-appkey']="DXSAAS";
+axios.defaults.headers['x-dx-orgid']="10";
 
 
 // 响应拦截
@@ -73,22 +73,7 @@ axios.interceptors.response.use(
   }
 );
 
-export function get(url, params) {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(url, {
-        params: params
-      })
-      .then(res => {
-        resolve(res.data);
-      })
-      .catch(err => {
-        reject(err.data);
-      });
-  });
-}
-
-export function post(url, params) {
+export function Post(url, params) {
   return new Promise((resolve, reject) => {
     axios
       .post(url, params)
@@ -101,10 +86,13 @@ export function post(url, params) {
   });
 }
 
-export function put(url, params) {
+export function Get(url, token, data) {
   return new Promise((resolve, reject) => {
     axios
-      .put(url, params)
+      .get(url, {
+        params:data,
+        headers:{'x-dx-token' : token}
+      })
       .then(res => {
         resolve(res.data);
       })
@@ -114,15 +102,59 @@ export function put(url, params) {
   });
 }
 
-export function del(url, params) {
+export function Put(url, data, token) {
+  return new Promise((resolve, reject) => {
+    // axios
+    //   .put(url, {
+    //     data:data,
+    //     headers:{"x-dx-token" : token}
+    //   })
+    //   .then(res => {
+    //     resolve(res.data);
+    //   })
+    //   .catch(err => {
+    //     reject(err.data);
+    //   })
+
+    axios({
+      method:'put',
+      url:url,
+      data:data,
+      headers:{'x-dx-token' : token}
+    })
+    .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+    })
+  })
+}
+
+export function Delete(url, token) {
   return new Promise((resolve, reject) => {
     axios
-      .delete(url, params)
+      .delete(url, {
+        headers:{"x-dx-token" : token}
+      })
       .then(res => {
         resolve(res.data);
       })
       .catch(err => {
         reject(err.data);
-      });
-  });
+      })
+
+  //   axios({
+  //     method:'put',
+  //     url:url,
+  //     data:data,
+  //     headers:{'x-dx-token' : token}
+  //   })
+  //   .then(res => {
+  //       resolve(res.data);
+  //     })
+  //     .catch(err => {
+  //       reject(err.data);
+  //   })
+  })
 }

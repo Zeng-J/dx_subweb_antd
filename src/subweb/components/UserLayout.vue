@@ -8,7 +8,7 @@
         :defaultSelectedKeys="['1']"
         :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">首页</a-menu-item>
+        <a-menu-item key="1"><router-link to="/team">首页</router-link></a-menu-item>
         <a-menu-item key="2">应用</a-menu-item>
         <a-menu-item key="3">服务</a-menu-item>
         <a-menu-item key="4">关于</a-menu-item>

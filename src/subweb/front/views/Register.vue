@@ -243,6 +243,11 @@ export default {
           .then(res => {
             console.log(res)
             if(res.code === 200){
+            this.$notification['success']({
+              message: '提示',
+              description: '注册成功',
+              duration: 8
+            })
         // this.$router.push({ name: "registerResult", params: { ...values } });
             } else {
               alert(res.msg)

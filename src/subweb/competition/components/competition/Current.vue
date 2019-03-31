@@ -29,56 +29,65 @@
     :dataSource="listData"
     >
       <a-list-item slot="renderItem" slot-scope="item, index" key="item.title">
-          
-          <template slot="actions" v-for="{type, text} in actions">
-              <span :key="type">
-              <a-icon :type="type" style="margin-right: 8px" />
-              {{text}}
-              </span>
-          </template>
-          <span slot="extra" style="background:red;color:#fff">1000元奖金</span>
-          <a-list-item-meta
-              :description="item.description"
-          >
-              <router-link slot="title" to="/gameContent">{{item.title}}</router-link>
-              <a-badge slot="avatar" :count="item.status" :numberStyle="{background:'green','border-radius':'0'}">
-                  <img  width="120" alt="logo" :src="item.avatar" />
+          <span slot="extra" style="background:red;color:#fff">{{item.contestReward}}</span>
+          <a-list-item-meta>
+            <div slot="description">
+                <p>{{item.contestIntroduce}}</p>
+                <a-row>
+                    <a-col span="6">
+                        <span ><a-icon type="message" style="margin-right: 8px" />2019-10-10 09:12</span>
+                    </a-col>
+                    <a-col span="6">
+                        <span >即将开赛</span>
+                    </a-col>
+                    <a-col span="6">
+                        <span >倒计时15时36分'</span>
+                    </a-col>
+                    <a-col span="6">
+                        <span ><a-icon type="message" style="margin-right: 8px" />在期|报名中</span>
+                    </a-col>
+                </a-row>
+            </div>
+              <router-link slot="title" :to="{name:'gameContent', query:{teamId:item.id}}">{{item.contestName}}</router-link>
+              <a-badge slot="avatar" :count="item.contentPower" :numberStyle="{background:'green','border-radius':'0'}">
+                  <img  width="120" alt="logo" :src="item.contestLogo" />
               </a-badge>
           </a-list-item-meta>
+          
       </a-list-item>
     </a-list>
     </a-layout-content>
   </a-layout>
 </template>
 <script>
-const listData = []
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://vue.ant.design/',
-    title: `华为H5岗位竞赛 ${i}`,
-    avatar: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2386514993,1599927311&fm=58&bpow=699&bpoh=508',
-    description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    status:'VIP'
-  })
-}
+import { listContest } from '@/common/api'
 
 export default {
   data () {
     return {
-      listData,
+      listData:[],
       pagination: {
         onChange: (page) => {
           console.log(page);
         },
         pageSize: 3,
       },
-      actions: [
-        { type: 'star-o', text: '2019-10-10 09:12' },
-        { type: 'like-o', text: '截至报名 倒计时15时36分' },
-        { type: 'message', text: '在期|报名中' },
-        { type: 'message', text: '初级 1080人参与' },
-      ],
     }
   },
+  created() {
+      this.getListContest()
+  },
+    methods: {
+      getListContest(){
+        listContest()
+        .then(res => {
+          console.log(res)
+          this.listData = res.data.list
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+  }
 }
 </script>
