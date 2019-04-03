@@ -5,7 +5,7 @@
         theme="light"
         mode="horizontal"
         :style="{ lineHeight: '64px' }"
-        
+        v-if="this.$store.state.isLogin"
         >
             <a-sub-menu key="sub1">
                 <span slot="title">首页</span>
@@ -34,7 +34,7 @@
                     <span>
                         <img src="https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000" style="width:30px;border-radius:50%;">
                     </span>
-                    <span>admin</span>
+                    <span>{{ this.$store.state.userName }}</span>
                 </span>
                 <a-menu-item key="10"><router-link to="/account">个人信息</router-link></a-menu-item>
                 <a-menu-item key="11"><router-link to="/account/securitySettings">修改密码</router-link></a-menu-item>
@@ -74,6 +74,22 @@
                  <a-button type="default" icon="bell" style="border:#fff"></a-button>
             </a-popover>
             <!-- </a-menu-item> -->
+        </a-menu>
+
+        <a-menu
+        theme="light"
+        mode="horizontal"
+        :defaultSelectedKeys="['1']"
+        :style="{ lineHeight: '64px' }"
+        v-else
+        >
+            <a-menu-item key="1"><router-link to="/front">首页</router-link></a-menu-item>
+            <a-menu-item key="2">应用</a-menu-item>
+            <a-menu-item key="3">服务</a-menu-item>
+            <a-menu-item key="4">关于</a-menu-item>
+            <a-menu-item key="5"><router-link to="/competition">竞赛活动</router-link></a-menu-item> 
+            <a-menu-item key="6"><router-link to="/front/login">登陆</router-link></a-menu-item> 
+            <a-menu-item key="7"><router-link to="/front/register">注册</router-link></a-menu-item> 
         </a-menu>
     </a-layout-header>
 </template>
@@ -117,13 +133,14 @@ export default {
                     description: '注销成功',
                     duration: 2
                     })
+                    this.$store.state.isLogin = false
                     this.$router.push ({path:'/front'}) 
             })
             .catch(err => {
                 console.log(err)
             })
         }
-    },
+    }
 }
 </script>
 

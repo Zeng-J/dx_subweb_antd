@@ -82,14 +82,14 @@ export default {
               mobile: res.data.userMobile,
               email: "",
               userInfo: res.data.userIntro
-            });
-            this.img = res.data.userLogo || this.img;
-            this.$store.state.token = res.data.token;
+            })
+            this.img = res.data.userLogo || this.img
+            this.$store.state.token = res.data.token
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     handleSubmit() {
       // console.log('token',this.$store.state.token)

@@ -16,6 +16,7 @@
 </template>
 <script>
 import OrgLayer from './OrgLayer'
+import { orgMgtList } from '@/common/api'
 
 export default {
   components: {
@@ -77,7 +78,20 @@ export default {
       }],
     }
   },
+  created(){
+    this.getOrgMgtList()
+  },
   methods: {
+    getOrgMgtList(){
+      console.log(this.$store.state.token)
+      orgMgtList(this.$store.state.token)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     handleAdd () {
       this.$refs.OrgLayer.title='创建组织';
       this.$refs.OrgLayer.visible=!this.$refs.OrgLayer.visible;

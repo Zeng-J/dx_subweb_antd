@@ -1,90 +1,99 @@
 <template>
-  <div class="main user-layout-register">
-    <h3>
-      <span>新用户注册</span>
-    </h3>
-    <a-form ref="formRegister" :form=form id="formRegister">
-      <a-form-item label='姓名' :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-input size="large" type="text" placeholder="姓名" v-decorator="['name',
+  <a-row>
+    <a-col :xs="24" :sm="8">
+      <img style="width:80%; height:250px;margin:50px auto;" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990515277,3071303246&fm=27&gp=0.jpg" alt="">
+    </a-col>
+    <a-col :xs="24" :sm="16" :lg="{ span: 12, offset: 1 }" :xl="{ span: 10, offset: 4 }" :xxl="{ span: 8, offset: 4 }">
+      <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
+        <div class="main user-layout-register">
+          <h3>
+            <span>新用户注册</span>
+          </h3>
+          <a-form ref="formRegister" :form=form id="formRegister">
+            <a-form-item label='姓名' :label-col="labelCol" :wrapper-col="wrapperCol">
+              <a-input size="large" type="text" placeholder="姓名" v-decorator="['name',
           {rules: [{ required: true,message: '请输入姓名' }], validateTrigger: ['change', 'blur']}
         ]">
-        </a-input>
-      </a-form-item>
+              </a-input>
+            </a-form-item>
 
-      <a-form-item label='性别' :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-radio-group v-decorator="['gender',{rules: []}]" >
-          <a-radio value="0">
-            男
-          </a-radio>
-          <a-radio value="1">
-            女
-          </a-radio>
-        </a-radio-group>
-      </a-form-item>
+            <a-form-item label='性别' :label-col="labelCol" :wrapper-col="wrapperCol">
+              <a-radio-group v-decorator="['gender',{rules: []}]">
+                <a-radio value="0">
+                  男
+                </a-radio>
+                <a-radio value="1">
+                  女
+                </a-radio>
+              </a-radio-group>
+            </a-form-item>
 
-      <a-form-item label='手机号' :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-form-item label='手机号' :label-col="labelCol" :wrapper-col="wrapperCol">
 
-        <a-input size="large" placeholder="11 位手机号" v-decorator="['mobile',
+              <a-input size="large" placeholder="11 位手机号" v-decorator="['mobile',
               {rules: [{ required: true, message: '请输入正确的手机号', pattern: /^1[3456789]\d{9}$/ }, { validator: this.handlePhoneCheck } ], validateTrigger: ['change', 'blur'] }
         ]">
-        </a-input>
-      </a-form-item>
+              </a-input>
+            </a-form-item>
 
-      <a-row>
-        <a-col class="gutter-row" :xs="24" :sm="24" :md="{ span: 16, offset: 2 }">
-          <a-form-item label='验证码' :label-col="labelCol" :wrapper-col="wrapperCol">
-            <a-input v-decorator="['picCode',{rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]" size="large" type="text" placeholder="验证码">
-              <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
-            </a-input>
-          </a-form-item>
-        </a-col>
-        <a-col class="gutter-row" :xs="12" :sm="12" :md="6">
-          <img :src="src" alt="获取验证码" @click="getPic">
-        </a-col>
-      </a-row>
+            <a-row>
+              <a-col class="gutter-row" :xs="24" :sm="24" :md="{ span: 16, offset: 2 }">
+                <a-form-item label='验证码' :label-col="labelCol" :wrapper-col="wrapperCol">
+                  <a-input v-decorator="['picCode',{rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]" size="large" type="text" placeholder="验证码">
+                    <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
+                  </a-input>
+                </a-form-item>
+              </a-col>
+              <a-col class="gutter-row" :xs="12" :sm="12" :md="6">
+                <img :src="src" alt="获取验证码" @click="getPic">
+              </a-col>
+            </a-row>
 
-      <a-row>
-        <a-col class="gutter-row" :xs="24" :sm="24" :md="{ span: 16, offset: 2 }">
-          <a-form-item label='验证码' :label-col="labelCol" :wrapper-col="wrapperCol">
-            <a-input v-decorator="[ 'captcha',{rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]" size="large" type="text" placeholder="验证码">
-              <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
-            </a-input>
-          </a-form-item>
-        </a-col>
-        <a-col class="gutter-row" :xs="12" :sm="12" :md="6">
-          <a-button class="getCaptcha" size="large" :disabled="state.smsSendBtn" @click.stop.prevent="getCaptcha" v-text="!state.smsSendBtn && '获取验证码'||(state.time+' s')"></a-button>
-        </a-col>
-      </a-row>
+            <a-row>
+              <a-col class="gutter-row" :xs="24" :sm="24" :md="{ span: 16, offset: 2 }">
+                <a-form-item label='验证码' :label-col="labelCol" :wrapper-col="wrapperCol">
+                  <a-input v-decorator="[ 'captcha',{rules: [{ required: true, message: '请输入验证码' }], validateTrigger: 'blur'}]" size="large" type="text" placeholder="验证码">
+                    <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }" />
+                  </a-input>
+                </a-form-item>
+              </a-col>
+              <a-col class="gutter-row" :xs="12" :sm="12" :md="6">
+                <a-button class="getCaptcha" size="large" :disabled="state.smsSendBtn" @click.stop.prevent="getCaptcha" v-text="!state.smsSendBtn && '获取验证码'||(state.time+' s')"></a-button>
+              </a-col>
+            </a-row>
 
-      <a-popover placement="rightTop" trigger="click" :visible="state.passwordLevelChecked">
-        <template slot="content">
-          <div :style="{ width: '240px' }">
-            <div :class="['user-register', passwordLevelClass]">强度：
-              <span>{{ passwordLevelName }}</span>
-            </div>
-            <a-progress :percent="state.percent" :showInfo="false" :strokeColor=" passwordLevelColor " />
-            <div style="margin-top: 10px;">
-              <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
-            </div>
-          </div>
-        </template>
-        <a-form-item label='密码' :label-col="labelCol" :wrapper-col="wrapperCol">
-          <a-input v-decorator="['password', {rules: [{ required: true, message: '至少6位密码，区分大小写'}, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}]" size="large" type="password" @click="handlePasswordInputClick" autocomplete="false" placeholder="至少6位密码，区分大小写"></a-input>
-        </a-form-item>
-      </a-popover>
+            <a-popover placement="rightTop" trigger="click" :visible="state.passwordLevelChecked">
+              <template slot="content">
+                <div :style="{ width: '240px' }">
+                  <div :class="['user-register', passwordLevelClass]">强度：
+                    <span>{{ passwordLevelName }}</span>
+                  </div>
+                  <a-progress :percent="state.percent" :showInfo="false" :strokeColor=" passwordLevelColor " />
+                  <div style="margin-top: 10px;">
+                    <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
+                  </div>
+                </div>
+              </template>
+              <a-form-item label='密码' :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-input v-decorator="['password', {rules: [{ required: true, message: '至少6位密码，区分大小写'}, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}]" size="large" type="password" @click="handlePasswordInputClick" autocomplete="false" placeholder="至少6位密码，区分大小写"></a-input>
+              </a-form-item>
+            </a-popover>
 
-      <a-form-item label='确认密码' :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-input v-decorator="['password2',{rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordCheck }], validateTrigger: ['change', 'blur']}]" size="large" type="password" autocomplete="false" placeholder="确认密码"></a-input>
-      </a-form-item>
+            <a-form-item label='确认密码' :label-col="labelCol" :wrapper-col="wrapperCol">
+              <a-input v-decorator="['password2',{rules: [{ required: true, message: '至少6位密码，区分大小写' }, { validator: this.handlePasswordCheck }], validateTrigger: ['change', 'blur']}]" size="large" type="password" autocomplete="false" placeholder="确认密码"></a-input>
+            </a-form-item>
 
-      <a-form-item>
-        <a-button size="large" type="primary" htmlType="submit" class="register-button" :loading="registerBtn" @click.stop.prevent="handleSubmit" :disabled="registerBtn">注册
-        </a-button>
-        <router-link class="login" :to="{ name: 'login' }">使用已有账户登录</router-link>
-      </a-form-item>
+            <a-form-item>
+              <a-button size="large" type="primary" htmlType="submit" class="register-button" :loading="registerBtn" @click.stop.prevent="handleSubmit" :disabled="registerBtn">注册
+              </a-button>
+              <router-link class="login" :to="{ name: 'login' }">使用已有账户登录</router-link>
+            </a-form-item>
 
-    </a-form>
-  </div>
+          </a-form>
+        </div>
+      </div>
+    </a-col>
+  </a-row>
 </template>
 
 <script>
@@ -131,8 +140,8 @@ export default {
       wrapperCol,
       form: this.$form.createForm(this),
       src: "",
-      imgToken:'',
-      smsCodeToken:'',
+      imgToken: "",
+      smsCodeToken: "",
       state: {
         time: 60,
         smsSendBtn: false,
@@ -231,32 +240,31 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           register({
-            "imgCode": values.picCode,
-            "imgCodeToken": this.imgToken,
-            "smsCode": values.captcha,
-            "smsCodeToken": this.smsCodeToken,
-            "userMobile": values.mobile,
-            "userName": values.name,
-            "userPassword": values.password,
-            "userSex": 0
+            imgCode: values.picCode,
+            imgCodeToken: this.imgToken,
+            smsCode: values.captcha,
+            smsCodeToken: this.smsCodeToken,
+            userMobile: values.mobile,
+            userName: values.name,
+            userPassword: values.password,
+            userSex: 0
           })
-          .then(res => {
-            console.log(res)
-            if(res.code === 200){
-            this.$notification['success']({
-              message: '提示',
-              description: '注册成功',
-              duration: 8
+            .then(res => {
+              console.log(res);
+              if (res.code === 200) {
+                this.$notification["success"]({
+                  message: "提示",
+                  description: "注册成功",
+                  duration: 8
+                });
+                // this.$router.push({ name: "registerResult", params: { ...values } });
+              } else {
+                alert(res.msg);
+              }
             })
-        // this.$router.push({ name: "registerResult", params: { ...values } });
-            } else {
-              alert(res.msg)
-            }
-          })
-          .catch(res => {
-            console.log('err='+res)
-          })
-         
+            .catch(res => {
+              console.log("err=" + res);
+            });
         }
       });
     },
@@ -265,44 +273,49 @@ export default {
       e.preventDefault();
       const that = this;
 
-      this.form.validateFields(["mobile","picCode"], { force: true }, (err, values) => {
-        if (!err) {
-          this.state.smsSendBtn = true;
+      this.form.validateFields(
+        ["mobile", "picCode"],
+        { force: true },
+        (err, values) => {
+          if (!err) {
+            this.state.smsSendBtn = true;
 
-          const interval = window.setInterval(() => {
-            if (that.state.time-- <= 0) {
-              that.state.time = 60;
-              that.state.smsSendBtn = false;
-              window.clearInterval(interval);
-            }
-          }, 1000);
+            const interval = window.setInterval(() => {
+              if (that.state.time-- <= 0) {
+                that.state.time = 60;
+                that.state.smsSendBtn = false;
+                window.clearInterval(interval);
+              }
+            }, 1000);
 
-          const hide = this.$message.loading("验证码发送中..", 0);
-          console.log(values.picCode)
-          console.log(that.imgToken)
-          console.log(values.mobile)
-          getSmsCaptcha('reg', {
-              "imgCode": values.picCode,
-              "imgToken": that.imgToken,
-              "userMobile": values.mobile
+            const hide = this.$message.loading("验证码发送中..", 0);
+            console.log(values.picCode);
+            console.log(that.imgToken);
+            console.log(values.mobile);
+            getSmsCaptcha("reg", {
+              imgCode: values.picCode,
+              imgToken: that.imgToken,
+              userMobile: values.mobile
             })
-            .then(res => {
-            setTimeout(hide, 2500)
-            that.smsCodeToken = res.data
-            this.$notification['success']({
-              message: '提示',
-              description: '验证码获取成功，请查看您的手机哦',
-              duration: 8
-            })
-          }).catch(err => {
-            setTimeout(hide, 1)
-            clearInterval(interval)
-            that.state.time = 60
-            that.state.smsSendBtn = false
-            this.requestFailed(err)
-          })
+              .then(res => {
+                setTimeout(hide, 2500);
+                that.smsCodeToken = res.data;
+                this.$notification["success"]({
+                  message: "提示",
+                  description: "验证码获取成功，请查看您的手机哦",
+                  duration: 8
+                });
+              })
+              .catch(err => {
+                setTimeout(hide, 1);
+                clearInterval(interval);
+                that.state.time = 60;
+                that.state.smsSendBtn = false;
+                this.requestFailed(err);
+              });
+          }
         }
-      });
+      );
     },
     requestFailed(err) {
       this.$notification["error"]({
@@ -322,31 +335,10 @@ export default {
   }
 };
 </script>
-<style lang="less">
-.user-register {
-  &.error {
-    color: #ff0000;
-  }
-
-  &.warning {
-    color: #ff7e05;
-  }
-
-  &.success {
-    color: #52c41a;
-  }
-}
-
-.user-layout-register {
-  .ant-input-group-addon:first-child {
-    background-color: #fff;
-  }
-}
-</style>
 <style lang="less" scoped>
 .user-layout-register {
   & > h3 {
-    font-size: 16px;
+    font-size: 26px;
     margin-bottom: 20px;
   }
 

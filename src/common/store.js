@@ -12,7 +12,9 @@ const store = new Vuex.Store({
     FrontStore,
   },
   state:{
-    token:'set'
+    token:'set',
+    isLogin:false,
+    userName:''
   }
 });
 

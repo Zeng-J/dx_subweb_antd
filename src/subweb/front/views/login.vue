@@ -1,6 +1,15 @@
 <template>
     <div class="main">
-        <a-form id="formLogin" class="user-layout-login" ref="formLogin" :form="form" @submit="handleSubmit">
+      <a-row>
+        <a-col :xs="24" :sm="8">
+          <img 
+          style="width:80%; height:250px;margin:50px auto;"
+          src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990515277,3071303246&fm=27&gp=0.jpg" alt=""
+          >
+        </a-col>
+        <a-col :xs="24" :sm="16" :lg="{ span: 12, offset: 1 }" :xl="{ span: 10, offset: 4 }" :xxl="{ span: 8, offset: 4 }">
+          <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
+                      <a-form id="formLogin" class="user-layout-login" ref="formLogin" :form="form" @submit="handleSubmit">
             <a-tabs :activeKey="customActiveKey" :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }" @change="handleTabClick">
                 <!-- 账号密码登陆组件 -->
                 <a-tab-pane key="tab1" tab="账号密码登陆">
@@ -102,6 +111,11 @@
                 <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>
             </div>
         </a-form>
+          </div>
+        </a-col>
+      </a-row>
+
+
 
         <two-step-captcha v-if="requiredTwoStepCaptcha" :visible="stepCaptchaVisible"></two-step-captcha>
     </div>
@@ -144,6 +158,8 @@ export default {
           duration: 8
         })
         this.$store.state.token = res.data.token
+        this.$store.state.userName = res.data.userName
+        this.$store.state.isLogin = true
          this.$router.push({ name: 'team'})
         
         } else{

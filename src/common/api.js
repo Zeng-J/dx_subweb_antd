@@ -29,6 +29,10 @@ export const logout = (token) => Delete('/subweb/auth/token', token)
 // 竞赛
 export const listContestType = () => Get('/subweb/open/contest/listContestType')
 
-export const listContest = () => Get('/subweb/open/contest/listContest')
+export const listContest = (data) => Get('/subweb/open/contest/listContest?' + data)
 
 export const contestInfoId = (id) => Get('/subweb/open/contest/getContestInfoId/' + id)
+
+
+// 组织
+export const orgMgtList = (token) => Get('/subweb/auth/Org/getOrgMgtList', token)

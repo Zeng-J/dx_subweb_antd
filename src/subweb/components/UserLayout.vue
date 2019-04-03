@@ -12,6 +12,9 @@
         <a-menu-item key="2">应用</a-menu-item>
         <a-menu-item key="3">服务</a-menu-item>
         <a-menu-item key="4">关于</a-menu-item>
+        <a-menu-item key="5"><router-link to="/competition">竞赛活动</router-link></a-menu-item> 
+        <a-menu-item key="6"><router-link to="/front/login">登陆</router-link></a-menu-item> 
+        <a-menu-item key="7"><router-link to="/front/register">注册</router-link></a-menu-item> 
       </a-menu>
     </a-layout-header>
     <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">

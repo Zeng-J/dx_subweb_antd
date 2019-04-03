@@ -34,6 +34,7 @@
   </a-layout>
 </template>
 <script>
+// import {  } from '../components/competition/Contest'
 import { listContestType } from '@/common/api'
 
 export default {
