@@ -31,7 +31,9 @@ export const listContestType = () => Get('/subweb/open/contest/listContestType')
 
 export const listContest = (data) => Get('/subweb/open/contest/listContest?' + data)
 
-export const contestInfoId = (id) => Get('/subweb/open/contest/getContestInfoId/' + id)
+export const contestInfoId = (addr, id, token) => Get('/subweb/'+ addr +'/contest/getContestInfoId/' + id, token)
+
+export const situation = (id, token) => Get('/subweb/auth/Situation/detail/' + id, token)
 
 
 // 组织

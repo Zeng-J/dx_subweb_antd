@@ -3,6 +3,11 @@
     <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button>
     <a-table :dataSource="dataSource" :columns="columns">
       <span slot="customTitle"><a-icon type="smile-o" />LOGO</span>
+
+      <template slot="logo" slot-scope="text">
+        <!-- <a href="javascript:;" >{{text}}</a> -->
+        <img :src="text" alt="" >
+      </template>
       <template slot="operation" slot-scope="text, record">
         <div @click="edit">
         <a href="javascript:;" >编辑</a>
@@ -24,53 +29,29 @@ export default {
   },
   data () {
     return {
-      dataSource: [{
-        key: '0',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        role:"管理员",
-        status:"启用",
-        note:"管理",
-        suffix:'zuizui',
-        Website:'www.kao.com',
-        current:'fae'
-      }, {
-        key: '1',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        role:"管理员",
-        status:"启用",
-        note:"管理",
-        suffix:'zuizui',
-        Website:'www.kao.com',
-        current:'fae'
-      },],
+      dataSource: [],
       columns: [{
         slots: { title: 'customTitle' },
-        dataIndex: 'avatar',
+        dataIndex: 'orgLogo',
         scopedSlots: { customRender: 'logo' },
       }, {
         title: '团队名称',
-        dataIndex: 'name',
+        dataIndex: 'orgName',
       },{
         title: '团队后缀',
-        dataIndex: 'suffix',
+        dataIndex: 'orgSuffix',
       },{
         title: '团队网址',
-        dataIndex: 'website',
+        dataIndex: 'orgUrl',
       },{
         title: '角色',
-        dataIndex: 'role',
+        dataIndex: 'roles',
       },{
         title: '备注',
         dataIndex: 'note',
       },{
-        title: '状态',
-        dataIndex: 'status',
-      },
-      {
         title: '当前团队',
-        dataIndex: 'current',
+        dataIndex: 'is_current',
       },{
         title: '操作',
         dataIndex: 'operation',
@@ -83,10 +64,16 @@ export default {
   },
   methods: {
     getOrgMgtList(){
-      console.log(this.$store.state.token)
       orgMgtList(this.$store.state.token)
       .then(res => {
-        console.log(res)
+        
+        this.dataSource = res.data.list
+
+        for (let i=0;i<this.dataSource.length;i++) {
+          this.dataSource[i].key = this.dataSource[i].orgSuffix
+        }
+        // console.log(this.dataSource)
+        // console.log(res)
       })
       .catch(err => {
         console.log(err)

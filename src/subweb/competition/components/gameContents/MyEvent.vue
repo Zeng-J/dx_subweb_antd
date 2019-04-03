@@ -14,7 +14,10 @@
   </a-table>
 </div>
 </template>
+
 <script>
+import { situation } from '@/common/api'
+
 const columns = [{
   dataIndex: 'rank',
   key: 'rank',
@@ -59,6 +62,15 @@ export default {
       data,
       columns,
     }
+  },
+  created(){
+    situation(this.$route.query.contestId, this.$store.state.token)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

@@ -5,22 +5,7 @@ export default [
         path: 'competition',
         name:'competition',
         meta:{title:'竞赛活动'},
-        component:Competition,
-        redirect:'competition/current',
-        children:[
-            {
-                path:'current',
-                name:'current',
-                meta:{title:'在期竞赛'},
-                component: () => import('./components/competition/Current') ,
-            },
-            {
-                path:'past',
-                name:'past',
-                meta:{title:'往期竞赛'},
-                component: () => import('./components/competition/Past') ,
-            },
-        ]
+        component:Competition
     },
     {
         path:'gameContent',
