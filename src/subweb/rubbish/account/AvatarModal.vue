@@ -2,22 +2,22 @@
   <a-modal title="修改头像" :visible="visible" :maskClosable="false" :confirmLoading="confirmLoading" :width="800" @cancel="cancelHandel">
     <a-row>
       <a-col :xs="24" :md="12" :style="{height: '350px'}">
-        <vue-cropper ref="cropper" 
+        <!-- <vue-cropper ref="cropper" 
         :img="options.img" 
         :info="true" 
         :autoCrop="options.autoCrop" 
         :autoCropWidth="options.autoCropWidth" 
         :autoCropHeight="options.autoCropHeight" 
         :fixedBox="options.fixedBox" @realTime="realTime">
-        </vue-cropper>
+        </vue-cropper> -->
       </a-col>
       <a-col :xs="24" :md="12" :style="{height: '350px'}">
         <div class="avatar-upload-preview">
-          <img :src="previews.url" :style="previews.img" />
+          <img :src="preview" />
         </div>
           <a-upload class="avatar-upload" name="avatar"  :showUploadList="false" 
           listType="picture-card"
-          action="//jsonplaceholder.typicode.com/posts/" 
+          action="http://192.168.2.241:3000/open/common/upload" 
           :beforeUpload="beforeUpload" 
           @change="handleChange">
             <div>
@@ -36,18 +36,12 @@
 </template>
 <script>
 // 图片裁剪插件
-import { VueCropper } from "vue-cropper";
-
-function getBase64 (img, callback) {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result))
-  reader.readAsDataURL(img)
-}
+// import { VueCropper } from "vue-cropper"
 
 export default {
-  components: {
-    VueCropper
-  },
+  // components: {
+  //   VueCropper
+  // },
   data() {
     return {
       visible: false,
@@ -62,7 +56,7 @@ export default {
         autoCropHeight: 200,
         fixedBox: true
       },
-      previews: {}
+      preview: ''
     };
   },
   methods: {
@@ -89,10 +83,10 @@ export default {
       }, 1000);
     },
 
-    realTime(data) {
-      console.log(data);
-      this.previews = data;
-    },
+    // realTime(data) {
+    //   console.log(data);
+    //   this.previews = data;
+    // },
 
     beforeUpload (file) {
       const isJPG = file.type === 'image/jpeg'
@@ -107,16 +101,14 @@ export default {
     },
 
     handleChange (info) {
+      console.log(info)
       if (info.file.status === 'uploading') {
         this.loading = true
         return
       }
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (imageUrl) => {
-          this.options.img = imageUrl
-          this.loading = false
-        })
+        this.preview = info.file.response.data
+        this.loading = false
       }
     },
   }

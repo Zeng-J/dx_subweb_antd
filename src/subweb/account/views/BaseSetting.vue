@@ -36,46 +36,50 @@
 
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-        <div class="ant-upload-preview" @click="edit">
+        <div class="ant-upload-preview">
           <a-icon type="cloud-upload-o" class="upload-icon" />
           <div class="mask">
-            <a-icon type="plus" />
+            <a-upload class="avatar-upload" name="avatar"  :showUploadList="false" 
+              listType="picture"
+              :action="uploadUrl" 
+              :beforeUpload="beforeUpload" 
+              @change="handleChange">
+              <div>
+                <a-icon :type="loading ? 'loading' : 'plus'" />
+                <div class="ant-upload-text">Upload</div>
+              </div>
+            </a-upload>
           </div>
           <img :src="img"/>
         </div>
       </a-col>
     </a-row>
-    <avatar-modal ref="modal" @fun="changeImg"/>
   </div>
 </template>
 
 <script>
-import AvatarModal from "./AvatarModal";
 import { getUser, putUser } from "@/common/api.js"
+import { uploadUrl } from '@/common/const'
 
 export default {
-  components: {
-    AvatarModal
-  },
   data() {
     return {
-      // cropper
-      preview: {},
+      uploadUrl,
       form: this.$form.createForm(this),
-      style:'',
       img:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1218485516,264644399&fm=27&gp=0.jpg",
-    };
+      loading:false,
+    }
   },
 
   created() {
-    this.getUserBase();
+    this.getUserBase()
   },
 
   methods: {
     getUserBase() {
       getUser(this.$store.state.token)
         .then(res => {
-          console.log(res);
+          console.log(res)
           if (res.code === 200) {
             this.form.setFieldsValue({
               name: res.data.userName,
@@ -92,10 +96,8 @@ export default {
         })
     },
     handleSubmit() {
-      // console.log('token',this.$store.state.token)
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log( this.$store.state.token)
           putUser({
             "logoPic": this.img,
             "userIntro": values.userInfo,
@@ -110,6 +112,9 @@ export default {
               description: '更改成功',
               duration: 2
               })
+
+              this.$store.state.avatar = this.img
+              this.$store.state.userName = values.name
             } else {
               alert(res.msg)
             }
@@ -121,14 +126,29 @@ export default {
       })
     },
 
-    changeImg(img){
-      console.log(img)
-      this.img = img
+    beforeUpload (file) {
+      const isJPG = file.type === 'image/jpeg' || 'image/png'
+      if (!isJPG) {
+        this.$message.error('You can only upload JPG file or PNG file!')
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('Image must smaller than 2MB!')
+      }
+      return isJPG && isLt2M
     },
 
-    edit(){
-      this.$refs.modal.edit(this.img)
-    }
+    handleChange (info) {
+      console.log(info)
+      if (info.file.status === 'uploading') {
+        this.loading = true
+        return
+      }
+      if (info.file.status === 'done') {
+        this.img = info.file.response.data
+        this.loading = false
+      }
+    },
     
   }
 };

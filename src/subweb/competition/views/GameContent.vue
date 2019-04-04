@@ -13,7 +13,9 @@
                         <a-col span="4">
                             <span>
                                 <a-button v-if="item.userJoinState" disabled>已报名</a-button>
-                                <a-button type="primary" v-else :disabled=" item.color === 'black' ">立即报名</a-button>
+                                <a-button type="primary" v-else :disabled="item.color === 'black'" @click="() => {this.key='enrol'}">
+                                    <router-link to="enrol" >立即报名</router-link>
+                                </a-button>
                             </span>
                         </a-col>
                         <a-col span="8">
@@ -43,7 +45,7 @@
         </a-card>
         <a-row :gutter="16">
             <a-col :span="20">
-                <a-card :tabList="tabListNoTitle" @tabChange="key => onTabChange(key)">
+                <a-card :tabList="tabListNoTitle" @tabChange="key => onTabChange(key)" :activeTabKey="key">
                     <router-view></router-view>
                 </a-card>
             </a-col>
@@ -65,11 +67,12 @@ export default {
   data() {
     return {
         item: {},
+        key:'details',
         time: {
-        day: 0,
-        hour: 0,
-        minute: 0,
-        second: 0
+            day: 0,
+            hour: 0,
+            minute: 0,
+            second: 0
         },
         tabListNoTitle: [
             {
@@ -104,7 +107,8 @@ export default {
   },
   methods: {
     onTabChange(key) {
-      this.$router.push({ name: key, query:{contestId:this.item.id} });
+        this.key=key
+        this.$router.push({ name: key, query:{contestId:this.item.id} });
     },
     contestInfoId(addr, token) {
       contestInfoId(addr, this.$route.query.teamId, token)

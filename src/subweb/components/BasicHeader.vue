@@ -32,7 +32,7 @@
             <a-sub-menu key="sub10">
                 <span slot="title">
                     <span>
-                        <img src="https://e.jikexueyuan.com/headerandfooter/images/logo.png?t=1513326254000" style="width:30px;border-radius:50%;">
+                        <img :src="this.$store.state.avatar" style="width:30px;border-radius:50%;">
                     </span>
                     <span>{{ this.$store.state.userName }}</span>
                 </span>
@@ -55,7 +55,7 @@
                                     itemLayout="horizontal"
                                     :dataSource="data"
                                 >
-                                    <a-list-item slot="renderItem" slot-scope="item, index">
+                                    <a-list-item slot="renderItem" slot-scope="item">
                                     <a-list-item-meta
                                         description="今天是个好日子"
                                     >

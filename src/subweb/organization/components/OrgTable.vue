@@ -66,11 +66,12 @@ export default {
     getOrgMgtList(){
       orgMgtList(this.$store.state.token)
       .then(res => {
-        
-        this.dataSource = res.data.list
-
-        for (let i=0;i<this.dataSource.length;i++) {
-          this.dataSource[i].key = this.dataSource[i].orgSuffix
+        console.log(res)
+        if (res.code === 200) {
+          this.dataSource = res.data.list 
+          for (let i=0;i<this.dataSource.length;i++) {
+            this.dataSource[i].key = this.dataSource[i].orgSuffix
+          }
         }
         // console.log(this.dataSource)
         // console.log(res)

@@ -82,8 +82,23 @@ export function Post(url, params) {
       })
       .catch(err => {
         reject(err.data);
-      });
-  });
+      })
+  })
+}
+
+export function Post2(url, params, token) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, params, {
+        headers:{'x-dx-token' : token}
+      })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      })
+  })
 }
 
 export function Get(url, token, data) {

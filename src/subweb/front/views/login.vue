@@ -159,6 +159,7 @@ export default {
         })
         this.$store.state.token = res.data.token
         this.$store.state.userName = res.data.userName
+        this.$store.state.avatar = res.data.userLogo
         this.$store.state.isLogin = true
          this.$router.push({ name: 'team'})
         

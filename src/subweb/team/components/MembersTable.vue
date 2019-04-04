@@ -1,15 +1,15 @@
 <template>
   <div>
     <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button>
-    <a-table :dataSource="dataSource" :columns="columns">
+    <a-table :dataSource="dataSource" :columns="columns" rowKey="id">
+      <template slot="logo" slot-scope="text">
+        <img :src="text" alt="" style="width:30px">
+      </template>
+      <template slot="userSex" slot-scope="text">
+        <span v-text="text==0?'女':'男'"></span>
+      </template>
       <template slot="operation" slot-scope="text, record">
-        <!-- <a-popconfirm
-          v-if="dataSource.length"
-          title="Sure to delete?"
-          @confirm="() => onDelete(record.key)">
-          <a href="javascript:;">Delete</a>
-        </a-popconfirm> -->
-        <div @click="edit">
+        <div @click="edit(text)">
         <a href="javascript:;" >编辑</a>
         </div>
       </template>
@@ -21,6 +21,7 @@
 </template>
 <script>
 import MembersLayer from './MembersLayer'
+import { teamMember } from '@/common/api'
 
 export default {
   components: {
@@ -28,69 +29,64 @@ export default {
   },
   data () {
     return {
-      dataSource: [{
-        key: '0',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        age: '32',
-        gender:"男",
-        mobile:"13430200126",
-        role:"管理员",
-        email:"1293485@qq.com",
-        status:"启用",
-        note:"管理"
-      }, {
-        key: '1',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        age: '32',
-        gender:"男",
-        mobile:"13430200126",
-        role:"管理员",
-        email:"1293485@qq.com",
-        status:"启用",
-        note:"管理"
-      }],
+      dataSource: [],
       columns: [{
         title: '头像',
-        dataIndex: 'avatar',
+        dataIndex: 'userLogo',
+        scopedSlots: { customRender: 'logo' }
       }, {
         title: '姓名',
-        dataIndex: 'name',
+        dataIndex: 'userName',
       },{
         title: '性别',
-        dataIndex: 'gender',
+        dataIndex: 'userSex',
+        scopedSlots: { customRender: 'userSex' }
       },{
         title: '手机号',
-        dataIndex: 'mobile',
+        dataIndex: 'userMobile',
       },{
         title: '角色',
-        dataIndex: 'role',
+        dataIndex: 'roleIds',
       },{
         title: '电子邮箱',
         dataIndex: 'email',
       },{
         title: '状态',
-        dataIndex: 'status',
+        dataIndex: 'dataStatus',
       },
       {
         title: '备注',
-        dataIndex: 'note',
+        dataIndex: 'memberReserve ',
       }, {
         title: '操作',
-        dataIndex: 'operation',
+        dataIndex: 'id',
         scopedSlots: { customRender: 'operation' },
       }],
     }
+  },
+  created(){
+    this.getTeamMember()
   },
   methods: {
     handleAdd () {
       this.$refs.MembersLayer.title='创建成员';
       this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
     },
-    edit(){
+    edit(text){
+      // console.log(text)
+      this.$refs.MembersLayer.getTeamMemberById(text)
       this.$refs.MembersLayer.title='编辑成员';
       this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
+    },
+    getTeamMember(){
+      teamMember(this.$store.state.token)
+      .then(res => {
+        console.log('团队成员',res)
+        this.dataSource = res.data.list
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 }
