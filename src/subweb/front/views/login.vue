@@ -157,7 +157,8 @@ export default {
           description: '登陸成功',
           duration: 8
         })
-        this.$store.state.token = res.data.token
+        // this.$store.state.token = res.data.token
+        this.$store.commit('setToken', res.data.token)
         this.$store.state.userName = res.data.userName
         this.$store.state.avatar = res.data.userLogo
         this.$store.state.isLogin = true

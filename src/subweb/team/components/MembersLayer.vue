@@ -9,14 +9,14 @@
                     <a-input v-decorator="['userName',{rules: [{ required: true, message: '必填！/只允许数字！' }]}]" placeholder="姓名" />
                 </a-form-item>
                 <a-form-item :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" label="性别">
-                    <a-radio-group v-decorator="['userSex', {initialValue:1}]">
+                    <a-radio-group v-decorator="['userSex', {initialValue:1}]" disabled>
                         <a-radio :value="1" >男</a-radio>
                         <a-radio :value="0">女</a-radio>
                     </a-radio-group>
                 </a-form-item>
 
                 <a-form-item :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" label="头像">
-                    <img :src="userLogo" alt="" srcset="" style="width:10%">
+                    <img :src="userLogo" alt="头像" srcset="" style="width:10%">
                 </a-form-item>
                 <a-form-item :label-col="formTailLayout.labelCol" :wrapper-col="formTailLayout.wrapperCol" label="显示序列">
                     <a-input v-decorator="[
@@ -27,29 +27,14 @@
 
                 <a-form-item v-bind="formItemLayout" label="角色">
                     <a-checkbox-group v-decorator="[
-                    'checkbox-group', 
+                    'roles', 
                     {rules: [{ required: true, message: '至少选择一项！' }]},
-                    {initialValue: ['A', 'B']}
-                ]" style="width: 100%;">
+                    {initialValue: ['1001']}
+                    ]" style="width: 100%;">
                         <a-row>
-                            <a-col :span="8">
-                                <a-checkbox value="A">
-                                    管理员
-                                </a-checkbox>
-                            </a-col>
-                            <a-col :span="8">
-                                <a-checkbox value="B">
-                                    普通成员
-                                </a-checkbox>
-                            </a-col>
-                            <a-col :span="8">
-                                <a-checkbox value="C">
-                                    教师
-                                </a-checkbox>
-                            </a-col>
-                            <a-col :span="8">
-                                <a-checkbox value="D">
-                                    学生
+                            <a-col :span="8" v-for="value in roleList" :key="value.id">
+                                <a-checkbox :value="value.id">
+                                    {{value.roleName}}
                                 </a-checkbox>
                             </a-col>
                         </a-row>
@@ -58,7 +43,7 @@
                 <a-form-item :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" label="状态">
                     <a-radio-group v-decorator="['dataStatus', {initialValue:1}]">
                         <a-radio :value="1">启用</a-radio>
-                        <a-radio :value="0">禁用</a-radio>
+                        <a-radio :value="2">禁用</a-radio>
                     </a-radio-group>
                 </a-form-item>
                 <a-form-item :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" label="备注">
@@ -69,7 +54,7 @@
     </div>
 </template>
 <script>
-import { teamMemberById } from "@/common/api";
+import { teamMemberById, roleList, editTeamMember } from "@/common/api";
 
 export default {
   beforeCreate() {
@@ -85,43 +70,76 @@ export default {
         labelCol: { span: 4 },
         wrapperCol: { span: 10 }
       },
-      value: 2,
       title: "",
       visible: false,
-      userLogo: ""
+      userLogo: "",
+      roleList:[],
+      id:''
     };
   },
   methods: {
     handleCancel() {
-      const form = this.form;
-      form.resetFields();
-      this.visible = false;
+      this.visible = false
     },
     handleOk(e) {
-      console.log(e);
-      const form = this.form;
-      form.resetFields();
-      this.visible = false;
-    },
-    getTeamMemberById(relUserId) {
-      console.log("团队成员弹层", relUserId);
-      teamMemberById(relUserId, this.$store.state.token)
-        .then(res => {
-          console.log(res);
-          if (res.code !== 200) {
-            return;
-          }
-          this.form.setFieldsValue({
-            userMobile: res.data.userMobile,
-            userName: res.data.userName,
-            userSex:res.data.userSex,
-            dataOrder:res.data.dataOrder,
-            dataStatus:res.data.dataStatus
+      // console.log(e)
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          editTeamMember({
+            "dataOrder": values.dataOrder,
+            "dataStatus": values.dataStatus,
+            "id": this.id,
+            "memberReserve": values.memberReserve,
+            "roleIds": values.roles
+          }, this.$store.state.token)
+          .then(res => {
+            // console.log(res)
+            this.$notification['success']({
+              message: '提示',
+              description: '更改成功',
+              duration: 2
+            })
+            // 重新连接团队列表接口
+            this.$emit('getTeamMember')
           })
+          .catch(err => {
+            console.log('编辑成员详情err='+err)
+          })
+
+          return this.visible = false
+        }
+      })
+    },
+    getMemberDetail(relUserId) {
+      this.visible = !this.visible
+      // console.log("团队成员弹层", relUserId)
+      // 角色列表，获取角色选项 
+      roleList(this.$store.state.token)
+      .then(res => {
+        // console.log('角色选项', res)
+        this.roleList = res.data.list
+        return teamMemberById(relUserId, this.$store.state.token)
+      })
+      .then(res => {
+        console.log('成员详情', res)
+        if (res.code !== 200) {
+          return;
+        }
+        this.form.setFieldsValue({
+          userMobile: res.data.userMobile,
+          userName: res.data.userName,
+          userSex:res.data.userSex,
+          dataOrder:res.data.dataOrder,
+          dataStatus:res.data.dataStatus,
+          memberReserve:res.data.memberReserve,
+          roles: res.data.roleIds.split(',')
         })
-        .catch(err => {
-          console.log(err);
-        });
+        this.userLogo = res.data.userLogo
+        this.id = res.data.id 
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   }
 };

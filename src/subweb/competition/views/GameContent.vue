@@ -18,12 +18,12 @@
                                 </a-button>
                             </span>
                         </a-col>
-                        <a-col span="8">
+                        <a-col span="7">
                             <span>
                                 <a-icon type="clock-circle" style="margin-right: 8px" />{{ item.tips }}
                             </span>
                         </a-col>
-                        <a-col span="4">
+                        <a-col span="5">
                             <span v-if="time">倒计时{{ time.day }}天{{time.hour}}时{{time.minute}}分钟{{time.second}}秒</span>
                             <span v-else>活动已结束</span>
                         </a-col>

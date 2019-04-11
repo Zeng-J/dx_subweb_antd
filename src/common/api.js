@@ -45,10 +45,34 @@ export const jionContest = (params, token) => Post2('/subweb/auth/UserContest', 
 // 组织
 export const orgMgtList = (token) => Get('/subweb/auth/Org/getOrgMgtList', token)
 
-// ===团队===
+// ===============================团队成员==========================================================================================
 
 // 团队成员列表
-export const teamMember = (token) => Get('/subweb/auth/teamMember', token)
+export const teamMember = (query, token) => Get('/subweb/auth/teamMember?'+query, token)
 
 // 获取某一成员信息
 export const teamMemberById = (id, token) => Get('/subweb/auth/teamMember/'+id, token)
+
+// 编辑组织成员
+export const editTeamMember = (data, token) => Put('/subweb/auth/teamMember', data, token)
+
+
+
+// ===============================团队角色==========================================================================================
+
+// 团队角色列表
+export const roleList = (token) => Get('/subweb/auth/teamRole/getRolelist', token)
+
+// 角色详情
+export const roleDetails = (id, token) => Get('/subweb/auth/teamRole/getRole?roleId='+id, token)
+
+// 编辑角色
+export const editTeamRole = (data, token) => Put('/subweb/auth/teamRole', data, token)
+
+// ===============================团队群组==========================================================================================
+
+// 团队成员列表
+export const teamGroup = (query, token) => Get('/subweb/auth/teamGroup?'+query, token)
+
+// 获取群组信息
+export const teamGroupDetails = (param, token) => Get('/subweb/auth/teamGroup/'+param, token)

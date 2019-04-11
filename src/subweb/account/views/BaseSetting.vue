@@ -88,7 +88,9 @@ export default {
               userInfo: res.data.userIntro
             })
             this.img = res.data.userLogo || this.img
-            this.$store.state.token = res.data.token
+            // this.$store.state.token = res.data.token
+            console.log('基本设置token', res.data.token)
+            this.$store.commit('setToken', res.data.token)
           }
         })
         .catch(err => {
@@ -113,8 +115,13 @@ export default {
               duration: 2
               })
 
-              this.$store.state.avatar = this.img
-              this.$store.state.userName = values.name
+              this.$store.commit('setAccount',{
+                userName:values.name,
+                avatar:this.img
+              })
+              // 不推荐直接修改state中的值
+              // this.$store.state.avatar = this.img
+              // this.$store.state.userName = values.name
             } else {
               alert(res.msg)
             }

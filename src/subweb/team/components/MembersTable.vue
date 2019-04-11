@@ -1,14 +1,14 @@
 <template>
   <div>
     <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button>
-    <a-table :dataSource="dataSource" :columns="columns" rowKey="id">
+    <a-table :dataSource="dataSource" :columns="columns" rowKey="id" change="change">
       <template slot="logo" slot-scope="text">
         <img :src="text" alt="" style="width:30px">
       </template>
       <template slot="userSex" slot-scope="text">
         <span v-text="text==0?'女':'男'"></span>
       </template>
-      <template slot="operation" slot-scope="text, record">
+      <template slot="operation" slot-scope="text">
         <div @click="edit(text)">
         <a href="javascript:;" >编辑</a>
         </div>
@@ -16,6 +16,7 @@
     </a-table>
     <members-layer
     ref="MembersLayer"
+    @getTeamMember="getTeamMember"
     />
   </div>
 </template>
@@ -74,14 +75,20 @@ export default {
     },
     edit(text){
       // console.log(text)
-      this.$refs.MembersLayer.getTeamMemberById(text)
-      this.$refs.MembersLayer.title='编辑成员';
-      this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
+      this.$refs.MembersLayer.getMemberDetail(text)
+      this.$refs.MembersLayer.title='编辑成员'
+      // this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible
     },
     getTeamMember(){
-      teamMember(this.$store.state.token)
+      teamMember('pageSize=52', this.$store.state.token)
       .then(res => {
         console.log('团队成员',res)
+        if (res.code === 4401) {
+        return this.$notification.error({
+                message: '注意',
+                description: '用户已失效，请重新登录',
+                })
+        }
         this.dataSource = res.data.list
       })
       .catch(err => {

@@ -8,7 +8,7 @@
         <!-- <a href="javascript:;" >{{text}}</a> -->
         <img :src="text" alt="" >
       </template>
-      <template slot="operation" slot-scope="text, record">
+      <template slot="operation">
         <div @click="edit">
         <a href="javascript:;" >编辑</a>
         </div>
@@ -66,7 +66,15 @@ export default {
     getOrgMgtList(){
       orgMgtList(this.$store.state.token)
       .then(res => {
-        console.log(res)
+        console.log('组织列表', res)
+
+        if (res.code === 4401) {
+          return this.$notification.error({
+          message: '注意',
+          description: '用户已失效，请重新登录',
+          })
+        }
+
         if (res.code === 200) {
           this.dataSource = res.data.list 
           for (let i=0;i<this.dataSource.length;i++) {
