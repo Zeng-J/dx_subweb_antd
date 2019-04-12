@@ -56,6 +56,12 @@ export const teamMemberById = (id, token) => Get('/subweb/auth/teamMember/'+id, 
 // 编辑组织成员
 export const editTeamMember = (data, token) => Put('/subweb/auth/teamMember', data, token)
 
+// 新增组织成员
+export const postTeamMember = (data, token) => Post2('/subweb/auth/teamMember', data, token)
+
+// 检查是否已经是组织成员
+export const ismember = (param, token) => Get('/subweb/auth/teamMember/checkMember/'+param, token)
+
 
 
 // ===============================团队角色==========================================================================================
@@ -69,6 +75,12 @@ export const roleDetails = (id, token) => Get('/subweb/auth/teamRole/getRole?rol
 // 编辑角色
 export const editTeamRole = (data, token) => Put('/subweb/auth/teamRole', data, token)
 
+// 新增角色
+export const addTeamRole = (data, token) => Post2('/subweb/auth/teamRole', data, token)
+
+// 权限列表
+export const permissionList = (token) => Get('/subweb/auth/Perm/AddEdiRole', token)
+
 // ===============================团队群组==========================================================================================
 
 // 团队成员列表
@@ -76,3 +88,9 @@ export const teamGroup = (query, token) => Get('/subweb/auth/teamGroup?'+query, 
 
 // 获取群组信息
 export const teamGroupDetails = (param, token) => Get('/subweb/auth/teamGroup/'+param, token)
+
+// 更新群组信息
+export const putGroupDetails = (data, token) => Put('/subweb/auth/teamGroup', data, token)
+
+// 新增群组
+export const postGroupDetails = (data, token) => Post2('/subweb/auth/teamGroup', data, token)

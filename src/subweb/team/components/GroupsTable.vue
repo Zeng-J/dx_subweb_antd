@@ -8,10 +8,10 @@
 
       <!-- 行内数据自定义 -->
       <span slot="groupLogo" slot-scope="logo">
-        <img :src="logo" alt="LOGO" srcset="">
+        <img :src="logo" alt="LOGO" srcset="" style="width:20px">
       </span>
-      <span slot="members" slot-scope="members">
-        <router-link to="group/member">{{members}}[点击查看]</router-link>
+      <span slot="members" slot-scope="members, text">
+        <router-link :to="{name:'groupMember',query:{id:text.id}}">{{members}}[点击查看]</router-link>
       </span>
       <template slot="dataStatus" slot-scope="status">
         <a-tag color="blue" v-if="status === 1">报名</a-tag>
@@ -26,6 +26,7 @@
     </a-table>
     <groups-layer
     ref="GroupsLayer"
+    @getTeamGroup="getTeamGroup"
     />
   </slot>
 </div>
@@ -39,6 +40,7 @@ export default {
     GroupsLayer
   },
   created(){
+    console.log(this.$store.state.token)
     this.getTeamGroup()
   },
   data () {
@@ -72,8 +74,7 @@ export default {
   },
   methods: {
     handleAdd () {
-      this.$refs.GroupsLayer.title='创建群组'
-      this.$refs.GroupsLayer.visible=!this.$refs.GroupsLayer.visible
+      this.$refs.GroupsLayer.addTeamGroup()
     },
     editGroup(id){
       this.$refs.GroupsLayer.getGroupDetails(id)

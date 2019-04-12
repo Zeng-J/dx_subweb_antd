@@ -60,9 +60,7 @@ export default {
   },
   methods: {
     handleAdd () {
-      console.log("fs");
-      this.$refs.RolesLayer.title="创建角色";
-      this.$refs.RolesLayer.visible=!this.$refs.RolesLayer.visible;
+      this.$refs.RolesLayer.addTeamRole()
     },
     editRole(id){
       // console.log(id)

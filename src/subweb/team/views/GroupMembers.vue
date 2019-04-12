@@ -1,8 +1,13 @@
 <template>
   <div>
-    <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button>
+    <!-- <a-button class="editable-add-btn" @click="handleAdd" type="primary"><a-icon type="plus" />新增</a-button> -->
     <a-table :dataSource="dataSource" :columns="columns">
-      <template slot="operation" slot-scope="text, record">
+      <img slot="logo" :src="logo" alt="" srcset="" slot-scope="logo" style="width:20px">
+      <span slot="sex" slot-scope="val" v-text="val===1?'男':'女'"></span>
+      <span slot="status" slot-scope="tag">
+        <a-tag color="blue" v-text="tag ===1 ? '启用' : '禁用'"></a-tag>
+      </span>
+      <template slot="operation">
         <div>
             <router-link to="relation">成员关联</router-link>
         </div>
@@ -11,61 +16,52 @@
   </div>
 </template>
 <script>
-
+import { teamMember } from '@/common/api'
 
 export default {
-  components: {
+  created(){
+    // console.log(this.$route.query)
+    teamMember('groupId='+this.$route.query.id, this.$store.state.token)
+    .then(res => {
+      if (res.code === 200) {
+        this.dataSource = res.data.list
+        for (let i=0;i<this.dataSource.length;i++) {
+          this.dataSource[i].key = this.dataSource[i].relUserId
+        }
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
   data () {
     return {
-      dataSource: [{
-        key: '0',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        age: '32',
-        gender:"男",
-        mobile:"13430200126",
-        role:"管理员",
-        email:"1293485@qq.com",
-        status:"启用",
-        note:"管理"
-      }, {
-        key: '1',
-        avatar:"afanda",
-        name: 'Edward King 0',
-        age: '32',
-        gender:"男",
-        mobile:"13430200126",
-        role:"管理员",
-        email:"1293485@qq.com",
-        status:"启用",
-        note:"管理"
-      }],
+      dataSource: [],
       columns: [{
         title: '头像',
-        dataIndex: 'avatar',
+        dataIndex: 'userLogo',
+        scopedSlots: { customRender:'logo' }
       }, {
         title: '姓名',
-        dataIndex: 'name',
+        dataIndex: 'userName',
       },{
         title: '性别',
-        dataIndex: 'gender',
+        dataIndex: 'userSex',
+        scopedSlots: { customRender:'sex' }
       },{
         title: '手机号',
-        dataIndex: 'mobile',
+        dataIndex: 'userMobile',
       },{
         title: '角色',
-        dataIndex: 'role',
-      },{
-        title: '电子邮箱',
-        dataIndex: 'email',
+        dataIndex: 'roleIds',
       },{
         title: '状态',
-        dataIndex: 'status',
+        dataIndex: 'dataStatus',
+        scopedSlots: { customRender: 'status' },
       },
       {
         title: '备注',
-        dataIndex: 'note',
+        dataIndex: 'memberReserve',
       }, {
         title: '操作',
         dataIndex: 'operation',
@@ -74,10 +70,10 @@ export default {
     }
   },
   methods: {
-    handleAdd () {
-      this.$refs.MembersLayer.title='创建成员';
-      this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
-    }
+    // handleAdd () {
+    //   this.$refs.MembersLayer.title='创建成员';
+    //   this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
+    // }
   },
 }
 </script>

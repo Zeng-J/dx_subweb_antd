@@ -27,7 +27,7 @@ export default [{
             children:[
                 {
                     path:'member',
-                    name:'member',
+                    name:'groupMember',
                     meta:{title:'成员列表'},
                     component:() => import('./views/GroupMembers')
                 },

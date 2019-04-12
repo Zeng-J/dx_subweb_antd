@@ -8,6 +8,9 @@
       <template slot="userSex" slot-scope="text">
         <span v-text="text==0?'女':'男'"></span>
       </template>
+        <span slot="status" slot-scope="tag">
+        <a-tag color="blue" v-text="tag ===1 ? '启用' : '禁用'"></a-tag>
+      </span>
       <template slot="operation" slot-scope="text">
         <div @click="edit(text)">
         <a href="javascript:;" >编辑</a>
@@ -54,10 +57,11 @@ export default {
       },{
         title: '状态',
         dataIndex: 'dataStatus',
+         scopedSlots: { customRender: 'status' },
       },
       {
         title: '备注',
-        dataIndex: 'memberReserve ',
+        dataIndex: 'memberReserve',
       }, {
         title: '操作',
         dataIndex: 'id',
@@ -70,8 +74,7 @@ export default {
   },
   methods: {
     handleAdd () {
-      this.$refs.MembersLayer.title='创建成员';
-      this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible;
+      this.$refs.MembersLayer.addTeamMember()
     },
     edit(text){
       // console.log(text)
