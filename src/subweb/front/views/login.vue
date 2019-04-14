@@ -2,10 +2,7 @@
     <div class="main">
       <a-row>
         <a-col :xs="24" :sm="8">
-          <img 
-          style="width:80%; height:250px;margin:50px auto;"
-          src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990515277,3071303246&fm=27&gp=0.jpg" alt=""
-          >
+          <img  style="width:80%; height:100%;margin:100px 0 0 60px;" src="@/assets/images/login.jpg" alt="">
         </a-col>
         <a-col :xs="24" :sm="16" :lg="{ span: 12, offset: 1 }" :xl="{ span: 10, offset: 4 }" :xxl="{ span: 8, offset: 4 }">
           <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
@@ -89,7 +86,7 @@
             </a-tabs>
 
             <a-form-item>
-                <a-checkbox v-decorator="['rememberMe']">自动登陆</a-checkbox>
+                <a-checkbox v-decorator="['autoLogin']">自动登陆</a-checkbox>
                 <router-link :to="{ name: 'recover', params: { user: 'aaa'} }" class="forge-password" style="float: right;">忘记密码</router-link>
             </a-form-item>
 
@@ -159,10 +156,11 @@ export default {
         })
         // this.$store.state.token = res.data.token
         this.$store.commit('setToken', res.data.token)
+        // localStorage.setItem('token', res.data.token)
         this.$store.state.userName = res.data.userName
         this.$store.state.avatar = res.data.userLogo
         this.$store.state.isLogin = true
-         this.$router.push({ name: 'team'})
+         this.$router.push({ name: 'competition'})
         
         } else{
           this.$notification["error"]({
@@ -192,12 +190,13 @@ export default {
 
       state.loginBtn = true
 
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['mobile1', 'password','picCode1'] : ['mobile2', 'picCode2','captcha']
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['mobile1', 'password','picCode1', 'autoLogin'] : ['mobile2', 'picCode2','captcha', 'autoLogin']
 
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
           if (customActiveKey === 'tab1'){
             this.Login('pwd', {
+            "autoLogin": values.autoLogin?1:0,
             "imgCode": values.picCode1,
             "imgToken": this.imgToken,
             "userMobile": values.mobile1,
@@ -205,6 +204,7 @@ export default {
             })
           } else{
             this.Login('sms', {
+            "autoLogin": values.autoLogin?1:0,
             "imgCode": values.picCode2,
             "imgCodeToken": this.imgToken,
             "userMobile": values.mobile2,

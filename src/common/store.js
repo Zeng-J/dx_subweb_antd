@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     FrontStore,
   },
 
-  state:sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')): {
+  state:localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')): {
     token:'',
     isLogin:false,
     userName:'没名字',

@@ -29,6 +29,12 @@
             <a-sub-menu key="sub9">
                 <span slot="title">工作任务</span>
             </a-sub-menu>
+            <a-sub-menu key="sub10-1" title="团队管理">
+                <a-menu-item key="4"><router-link to="/team/member">成员</router-link></a-menu-item>
+                <a-menu-item key="5"><router-link to="/team/role">角色</router-link></a-menu-item>
+                <a-menu-item key="6"><router-link to="/team/group">群组</router-link></a-menu-item>
+            </a-sub-menu>
+            <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
             <a-sub-menu key="sub10">
                 <span slot="title">
                     <span>
@@ -39,12 +45,12 @@
                 <a-menu-item key="10"><router-link to="/account">个人信息</router-link></a-menu-item>
                 <a-menu-item key="11"><router-link to="/account/securitySettings">修改密码</router-link></a-menu-item>
                 <a-menu-item key="12"><span @click="handleLogout">退出登录</span></a-menu-item>
-                <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item>
-                <a-sub-menu key="sub10-1" title="团队管理">
+                <!-- <a-menu-item key="7"><router-link to="/org">组织管理</router-link></a-menu-item> -->
+                <!-- <a-sub-menu key="sub10-1" title="团队管理">
                     <a-menu-item key="4"><router-link to="/team/member">成员</router-link></a-menu-item>
                     <a-menu-item key="5"><router-link to="/team/role">角色</router-link></a-menu-item>
                     <a-menu-item key="6"><router-link to="/team/group">群组</router-link></a-menu-item>
-                </a-sub-menu>
+                </a-sub-menu> -->
             </a-sub-menu>
              <!-- <a-menu-item > -->
             <a-popover  trigger="click">

@@ -28,7 +28,14 @@
               {rules: [{message:'Please input your userInfo' }]}
             ]" />
           </a-form-item>
-
+          <a-form-item label="性别">
+            <a-radio-group
+              v-decorator="['userSex', { initialValue: 1 }]"
+            >
+              <a-radio :value="1">男</a-radio>
+              <a-radio :value="0">女</a-radio>
+            </a-radio-group>
+          </a-form-item>
           <a-form-item>
             <a-button type="primary" htmlType="submit" @click="handleSubmit">更新基本信息</a-button>
           </a-form-item>
@@ -85,7 +92,8 @@ export default {
               name: res.data.userName,
               mobile: res.data.userMobile,
               email: "",
-              userInfo: res.data.userIntro
+              userInfo: res.data.userIntro,
+              userSex:res.data.userSex
             })
             this.img = res.data.userLogo || this.img
             // this.$store.state.token = res.data.token
@@ -104,7 +112,7 @@ export default {
             "logoPic": this.img,
             "userIntro": values.userInfo,
             "userName": values.name,
-            "userSex": 0
+            "userSex": values.userSex
             }, this.$store.state.token)
           .then(res => {
             console.log(res)

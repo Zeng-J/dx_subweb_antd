@@ -1,7 +1,7 @@
 <template>
   <a-row>
     <a-col :xs="24" :sm="8">
-      <img style="width:80%; height:250px;margin:50px auto;" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3990515277,3071303246&fm=27&gp=0.jpg" alt="">
+        <img  style="width:80%; height:100%;margin:100px 0 0 60px;" src="@/assets/images/login.jpg" alt="">
     </a-col>
     <a-col :xs="24" :sm="16" :lg="{ span: 12, offset: 1 }" :xl="{ span: 10, offset: 4 }" :xxl="{ span: 8, offset: 4 }">
       <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">

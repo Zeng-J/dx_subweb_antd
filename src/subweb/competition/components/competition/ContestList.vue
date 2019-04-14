@@ -62,7 +62,17 @@
                                 </a-col>
                             </a-row>
                         </div>
+                        <!-- query这种传参方式 1. 浏览器url路径能够看到参数 2. 刷新页面后参数不会丢失-->
                         <router-link slot="title" :to="{name:'gameContent', query:{teamId:item.id}}">{{item.contestName}}<a-icon type="share-alt" /></router-link>
+                        
+                        <!-- query这种传参方式 1. 浏览器url路径能够看到参数 2. 刷新页面后参数不会丢失-->
+                        <!-- <router-link slot="title" :to="'gameContent/details?teamId='+item.id">{{item.contestName}}<a-icon type="share-alt" /></router-link> -->
+
+                        <!-- params这种传参方式 1. 浏览器url路径看不到参数 2. 刷新页面后参数就会丢失 3. name值必须精确到最后代的路由，这里是 'details'-->
+                        <!-- <router-link slot="title" :to="{name:'details', params:{teamId:item.id}}">{{item.contestName}}<a-icon type="share-alt" /></router-link> -->
+                        
+                        <!-- params这种传参方式，1. 浏览器url路径能够看到参数; 2. 刷新页面后参数不会丢失 3. 路由配置中的 path必须更改为  path:'details/:teamId';-->
+                        <!-- <router-link slot="title" :to="'gameContent/details/'+item.id">{{item.contestName}}<a-icon type="share-alt" /></router-link> -->
                         <a-badge slot="avatar" :count="item.contentPower === 1 ? '免费' : 'VIP'" 
                         :offset="[-25,5]"
                         :numberStyle="{background:'green','border-radius':'0'}">

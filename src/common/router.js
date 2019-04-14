@@ -40,13 +40,26 @@ routes.forEach(route => {
 const router = new Router({ mode: "history", routes });
 
 //url切换前（路由状态改变前）做一些事情
-router.beforeEach((to, from, next) => {
+router.beforeEach( function (to, from, next) {
   //自定义业务
-  const title = to.meta && to.meta.title;
+  const title = to.meta && to.meta.title
+
+  // console.log(router)
+  // console.log(router.app.$options.store.state.isLogin)
+
+
+  // console.log(to)
+  // console.log(to.path.split('/')[1])
+  if (router.app.$options.store.state.isLogin) {
+    if (to.path.split('/')[1] === 'front') {
+      document.title = '竞赛活动'
+      return next('/competition')
+    }
+  }
+
   if (title) {
     document.title = title;
   }
-
   next(); //通过，切换到新的UI
 });
 

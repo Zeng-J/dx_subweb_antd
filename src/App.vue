@@ -11,7 +11,7 @@ export default{
   },
   methods: {
     saveState() {
-        sessionStorage.setItem('state', JSON.stringify(this.$store.state))
+        localStorage.setItem('state', JSON.stringify(this.$store.state))
     }
   }
 }
