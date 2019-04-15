@@ -63,10 +63,12 @@
               { rules: [{ required: true, message: '至少选择一项！' }], initialValue: ['1001']}]"
             style="width: 100%;"
           >
-            <a-row>
-              <a-col :span="12" v-for="val in permissionList" :key="val.permId">
-                <a-checkbox :value="val.permId">
-                  {{val.permName}}
+            <a-row v-for="item in permissionList" :key="item.permGroup">
+              <h3>&emsp;{{item.permGroup}}：</h3>
+              <!-- <h3><a-tag>{{val.permGroup}}:</a-tag></h3> -->
+              <a-col :span="12"  v-for="value in item.perm" :key="value.permId">
+                <a-checkbox :value="value.permId">
+                  {{value.permName}}
                 </a-checkbox>
               </a-col>
             </a-row>
@@ -220,11 +222,12 @@ export default {
       permissionList(this.$store.state.token)
       .then(res => {
         console.log('获取角色权限列表', res)
-        for (let i=0;i<res.data.length;i++) {
-          for (let j=0;j<res.data[i].perm.length;j++) {
-              this.permissionList.push(res.data[i].perm[j])
-          }
-        }
+        this.permissionList = res.data
+        // for (let i=0;i<res.data.length;i++) {
+        //   for (let j=0;j<res.data[i].perm.length;j++) {
+        //       this.permissionList.push(res.data[i].perm[j])
+        //   }
+        // }
         console.log('权限列表', this.permissionList)
       })
       .catch(err => {
