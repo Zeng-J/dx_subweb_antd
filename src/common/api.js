@@ -35,6 +35,9 @@ export const contestInfoId = (addr, id, token) => Get('/subweb/'+ addr +'/contes
 
 export const situation = (id, token) => Get('/subweb/auth/Situation/detail/' + id, token)
 
+// 我的竞赛
+export const myContest = (token) => Get('/subweb/auth/contest/getUserContestInfo', token)
+
 // 竞赛报名
 export const jionContest = (params, token) => Post2('/subweb/auth/UserContest', params, token)
 // 获取竞赛报名信息

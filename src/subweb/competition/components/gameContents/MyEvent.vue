@@ -66,7 +66,7 @@ export default {
   created(){
     situation(this.$route.query.contestId, this.$store.state.token)
     .then(res => {
-      console.log(res)
+      console.log('我的赛况', res)
     })
     .catch(err => {
       console.log(err)

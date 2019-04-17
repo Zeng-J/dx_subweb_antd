@@ -17,7 +17,7 @@
                 <span @click="getPast"><a-icon type="calendar" />往期竞赛</span>
             </a-menu-item>
             <a-menu-item key="11">
-                <span><a-icon type="calendar" />我的竞赛</span>
+                <span @click="getMine"><a-icon type="calendar" />我的竞赛</span>
             </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -55,6 +55,9 @@ export default {
     },
     getPast(){
       this.$refs.contestList.getListContest("term=2")
+    },
+    getMine(){
+      this.$refs.contestList.getMyContest()
     }
   },
   created(){

@@ -110,6 +110,9 @@ export default {
   methods: {
     getListContest(data) {
         getListContest(this, data)
+    },
+    getMyContest(){
+        getListContest(this)
     }
   }
 };

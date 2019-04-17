@@ -2,7 +2,7 @@
     <div>
         <a-card style="width: 100%" :bordered="false">
             <a-card-meta :title="item.contestName">
-                <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" slot="avatar" style="width:250px;height:180px" />
+                <img alt="海报" :src="item.contestLogo" slot="avatar" style="width:250px;height:180px" />
                 <template slot="description">
                     <p>
                         <span>主办方:</span>{{item.sponsorName}}</p>
@@ -113,7 +113,7 @@ export default {
     contestInfoId(addr, token) {
       contestInfoId(addr, this.$route.query.teamId, token)
         .then(res => {
-          console.log(res)
+          console.log('竞赛详情', res)
           this.item = res.data
           let that = this
 
