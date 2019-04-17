@@ -63,7 +63,7 @@ export default {
             "oldUserPassword": values.oldPassword,
             "userPassword1":  values.password,
             "userPassword2": values.confirm
-          },this.$store.state.token)
+          })
           .then(res => {
             console.log(res)
             if(res.code === 200){

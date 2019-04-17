@@ -111,7 +111,7 @@ export default {
               "groupName": values.groupName,
               "groupReserve": values.groupReserve,
               "id": this.id
-            }, this.$store.state.token)
+            })
             .then(res => {
                 console.log('保存编辑群组后', res)
                 if (res.code === 200) {
@@ -134,7 +134,7 @@ export default {
                 "groupLogo": this.$refs.UploadLogo.imageUrl,
                 "groupName": values.groupName,
                 "groupReserve": values.groupReserve,
-              }, this.$store.state.token)
+              })
               .then(res => {
                   console.log('保存新增群组后', res)
                   if (res.code === 200) {
@@ -160,7 +160,7 @@ export default {
       this.id = id;
       this.visible = true;
       this.title = "编辑群组";
-      teamGroupDetails(id, this.$store.state.token)
+      teamGroupDetails(id)
         .then(res => {
           console.log("群组详情弹窗", res);
 

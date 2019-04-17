@@ -14,7 +14,7 @@
                             <span>
                                 <a-button v-if="item.userJoinState" disabled>已报名</a-button>
                                 <a-button type="primary" v-else :disabled="item.color === 'black'" @click="() => {this.key='enrol'}">
-                                    <router-link to="enrol" >立即报名</router-link>
+                                    <router-link :to="{ name: 'enrol', query:{contestId:this.$route.query.contestId} }" >立即报名</router-link>
                                 </a-button>
                             </span>
                         </a-col>
@@ -100,18 +100,18 @@ export default {
   },
   created() {
     if (this.$store.state.isLogin === false) {
-        this.contestInfoId('open', '')
+        this.contestInfoId('open')
     } else {
-         this.contestInfoId('auth', this.$store.state.token)
+         this.contestInfoId('auth')
     }
   },
   methods: {
     onTabChange(key) {
         this.key=key
-        this.$router.push({ name: key, query:{contestId:this.item.id} });
+        this.$router.push({ name: key, query:{contestId:this.$route.query.contestId} });
     },
-    contestInfoId(addr, token) {
-      contestInfoId(addr, this.$route.query.teamId, token)
+    contestInfoId(addr) {
+      contestInfoId(addr, this.$route.query.contestId)
         .then(res => {
           console.log('竞赛详情', res)
           this.item = res.data

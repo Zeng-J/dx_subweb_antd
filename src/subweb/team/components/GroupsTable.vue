@@ -80,7 +80,7 @@ export default {
       this.$refs.GroupsLayer.getGroupDetails(id)
     },
     getTeamGroup(){
-      teamGroup('pageSize=1000', this.$store.state.token)
+      teamGroup('pageSize=1000')
         .then(res => {
         console.log('群组列表', res)
           if (res.code === 4401) {

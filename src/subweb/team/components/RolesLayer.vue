@@ -136,7 +136,7 @@ export default {
                     "roleId": this.id,
                     "roleName": values.roleName,
                     "roleReserve": values.roleReserve
-                }, this.$store.state.token)
+                })
                 .then(res => {
                     console.log('保存编辑角色后', res)
                     if (res.code === 200) {
@@ -160,7 +160,7 @@ export default {
                     "roleId": '',
                     "roleName": values.roleName,
                     "roleReserve": values.roleReserve
-                }, this.$store.state.token)
+                })
                 .then(res => {
                     console.log('保存新增角色后', res)
                     if (res.code === 200) {
@@ -193,7 +193,7 @@ export default {
         this.id = id
         this.visible = true
         this.title = "编辑角色"
-      roleDetails(id, this.$store.state.token)
+      roleDetails(id)
         .then(res => {
           console.log("角色详情弹窗", res)
 
@@ -219,7 +219,7 @@ export default {
       console.log(this.$store.state.token)
     },
     getPermissionList(){
-      permissionList(this.$store.state.token)
+      permissionList()
       .then(res => {
         console.log('获取角色权限列表', res)
         this.permissionList = res.data

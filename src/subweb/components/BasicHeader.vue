@@ -131,7 +131,7 @@ export default {
         },
         handleLogout(){
             console.log("退出")
-            logout(this.$store.state.token)
+            logout()
             .then(res => {
                     console.log(res)
                     this.$notification['success']({

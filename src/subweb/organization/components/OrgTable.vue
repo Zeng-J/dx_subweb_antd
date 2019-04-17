@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     getOrgMgtList(){
-      orgMgtList(this.$store.state.token)
+      orgMgtList()
       .then(res => {
         console.log('组织列表', res)
 

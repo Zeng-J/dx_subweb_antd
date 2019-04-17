@@ -12,7 +12,7 @@ Vue.use(Antd);
 Vue.config.productionTip = false;
 
 
-new Vue({
+export const vm = new Vue({
   router,
   store,
   render: h => h(App)

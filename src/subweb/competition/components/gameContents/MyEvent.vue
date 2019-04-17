@@ -64,7 +64,7 @@ export default {
     }
   },
   created(){
-    situation(this.$route.query.contestId, this.$store.state.token)
+    situation(this.$route.query.contestId)
     .then(res => {
       console.log('我的赛况', res)
     })

@@ -99,7 +99,7 @@ export default {
           "userResume":  (values.resume && values.resume.file.response.data) || '',
           "userSchool": values.school,
           "userStudentCard": (values.studentCard && values.studentCard.file.response.data) || ''
-        },this.$store.state.token)
+        })
         .then(res => {
           if (res.code !== 200) {
             return this.$message.error(res.msg)

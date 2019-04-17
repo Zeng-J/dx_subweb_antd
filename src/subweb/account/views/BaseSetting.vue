@@ -84,7 +84,7 @@ export default {
 
   methods: {
     getUserBase() {
-      getUser(this.$store.state.token)
+      getUser()
         .then(res => {
           console.log(res)
           if (res.code === 200) {
@@ -113,7 +113,7 @@ export default {
             "userIntro": values.userInfo,
             "userName": values.name,
             "userSex": values.userSex
-            }, this.$store.state.token)
+            })
           .then(res => {
             console.log(res)
             if(res.code === 200){

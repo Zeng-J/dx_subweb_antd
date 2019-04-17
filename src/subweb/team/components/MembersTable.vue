@@ -83,7 +83,7 @@ export default {
       // this.$refs.MembersLayer.visible=!this.$refs.MembersLayer.visible
     },
     getTeamMember(){
-      teamMember('pageSize=52', this.$store.state.token)
+      teamMember('pageSize=52')
       .then(res => {
         console.log('团队成员',res)
         if (res.code === 4401) {

@@ -4,7 +4,7 @@ export function getListContest(t, data) {
     // console.log('data', data, data === undefined)
 
     if (data === undefined) {
-        myContest(t.$store.state.token)
+        myContest()
         .then(res => {
             console.log('我的竞赛', res)
             if (res.code === 4401) {

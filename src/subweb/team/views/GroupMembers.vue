@@ -21,7 +21,7 @@ import { teamMember } from '@/common/api'
 export default {
   created(){
     // console.log(this.$route.query)
-    teamMember('groupId='+this.$route.query.id, this.$store.state.token)
+    teamMember('groupId='+this.$route.query.id)
     .then(res => {
       if (res.code === 200) {
         this.dataSource = res.data.list

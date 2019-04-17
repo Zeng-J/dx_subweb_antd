@@ -43,7 +43,7 @@ export default {
     getListContestType(){
       listContestType()
       .then(res => {
-        console.log(res)
+        console.log('竞赛类型',res)
         this.list = res.data
       })
       .catch(err => {

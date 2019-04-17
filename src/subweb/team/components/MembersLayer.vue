@@ -131,7 +131,7 @@ export default {
     this.form = this.$form.createForm(this);
   },
   created(){
-      roleList(this.$store.state.token)
+      roleList()
         .then(res => {
           // console.log('角色选项', res)
           this.roleList = res.data.list
@@ -178,9 +178,7 @@ export default {
                 id: this.id,
                 memberReserve: values.memberReserve,
                 roleIds: values.roles
-              },
-              this.$store.state.token
-            )
+              })
               .then(res => {
                 // console.log(res)
                 if (res.code === 200) {
@@ -206,7 +204,7 @@ export default {
                 userMobile: values.userMobile,
                 userName: values.userName,
                 userSex: 1
-              }, this.$store.state.token)
+              })
               .then(res => {
                 console.log("新增成员", res)
                 if (res.code === 200) {
@@ -237,7 +235,7 @@ export default {
       }
       this.visible = !this.visible
       // console.log("团队成员弹层", relUserId)
-      teamMemberById(relUserId, this.$store.state.token)
+      teamMemberById(relUserId)
         .then(res => {
           console.log("成员详情", res);
           if (res.code !== 200) {
@@ -272,7 +270,7 @@ export default {
       this.form.validateFields(['userMobile'], (err, val) => {
         // console.log('判断是否成员', val.userMobile)
         if (!err) {
-          ismember(val.userMobile, this.$store.state.token)
+          ismember(val.userMobile)
           .then(res => {
             // console.log(res)
             this.$message.info(res.msg)

@@ -67,7 +67,7 @@ export default {
       this.$refs.RolesLayer.getRoleDetails(id)
     },
     getTeamRolesList(){
-    roleList(this.$store.state.token)
+    roleList()
       .then(res => {
         console.log('角色列表', res)
           if (res.code === 4401) {
