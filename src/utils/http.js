@@ -1,14 +1,15 @@
 // 网络请求工具类
 
-import { vm } from '@/main.js'
-
 // 引入 axios
 import axios from 'axios'
 //import { Toast } from 'vant'
 import { notification } from 'ant-design-vue'
 
+import { vm } from '@/main.js'
 import router from '@/common/router'
 import {SERVER_URL} from '@/common/const'
+
+// console.log('vm', vm)
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {

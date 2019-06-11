@@ -34,13 +34,7 @@ export default {
   components:{
     ContestList
   },
-  data(){
-    return {
-      list:[]
-    }
-  },
-  methods: {
-    getListContestType(){
+  created(){
       listContestType()
       .then(res => {
         console.log('竞赛类型',res)
@@ -49,7 +43,13 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    },
+  },
+  data(){
+    return {
+      list:[]
+    }
+  },
+  methods: {
     getCurrent(){
       this.$refs.contestList.getListContest("term=1")
     },
@@ -60,9 +60,6 @@ export default {
       this.$refs.contestList.getMyContest()
     }
   },
-  created(){
-    this.getListContestType()
-  }
 };
 </script>
 

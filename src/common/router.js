@@ -37,7 +37,10 @@ routes.forEach(route => {
 });
 
 // 开始挂载路由（路由起作用）
-const router = new Router({ mode: "history", routes });
+const router = new Router({ 
+  // mode:"history",         // build打包时，关闭history模式
+  routes 
+});
 
 //url切换前（路由状态改变前）做一些事情
 router.beforeEach( function (to, from, next) {

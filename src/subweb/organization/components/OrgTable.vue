@@ -69,10 +69,13 @@ export default {
         console.log('组织列表', res)
 
         if (res.code === 4401) {
-          return this.$notification.error({
+          this.$notification.error({
           message: '注意',
           description: '用户已失效，请重新登录',
           })
+
+          // this.$router.push({path:'/front/login'})
+
         }
 
         if (res.code === 200) {
